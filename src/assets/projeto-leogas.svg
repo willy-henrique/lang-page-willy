@@ -1,0 +1,43 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1E40AF;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="logo" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#EF4444;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#DC2626;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="300" fill="url(#bg)"/>
+  
+  <!-- Header -->
+  <rect x="0" y="0" width="400" height="60" fill="rgba(255,255,255,0.1)"/>
+  
+  <!-- Logo -->
+  <rect x="20" y="15" width="80" height="30" fill="url(#logo)" rx="5"/>
+  <text x="60" y="35" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="16" font-weight="bold">LEOGÁS</text>
+  
+  <!-- Status -->
+  <circle cx="350" cy="30" r="8" fill="#10B981"/>
+  <text x="350" y="35" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="10">ON</text>
+  
+  <!-- Main Content -->
+  <text x="200" y="120" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="28" font-weight="bold">Automação de Gás</text>
+  <text x="200" y="150" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-family="Arial, sans-serif" font-size="16">Compra em 3 cliques</text>
+  
+  <!-- Features -->
+  <circle cx="100" cy="200" r="15" fill="rgba(255,255,255,0.2)"/>
+  <text x="100" y="205" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12">⚡</text>
+  
+  <circle cx="200" cy="200" r="15" fill="rgba(255,255,255,0.2)"/>
+  <text x="200" y="205" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12">🔒</text>
+  
+  <circle cx="300" cy="200" r="15" fill="rgba(255,255,255,0.2)"/>
+  <text x="300" y="205" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12">💳</text>
+  
+  <!-- Bottom text -->
+  <text x="200" y="250" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-family="Arial, sans-serif" font-size="14">Entrega Expressa</text>
+</svg>
