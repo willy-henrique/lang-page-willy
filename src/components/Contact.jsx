@@ -64,7 +64,7 @@ const Contact = ({ language }) => {
 
   // EmailJS configuration
   const EMAILJS_SERVICE_ID = 'service_d2q5q3g';
-  const EMAILJS_TEMPLATE_ID = 'template_d8fgg8g';
+  const EMAILJS_TEMPLATE_ID = 'template_au5oxsr';
   const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
   // Debug: verificar se a chave está sendo carregada
