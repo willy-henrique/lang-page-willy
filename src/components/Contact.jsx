@@ -95,17 +95,23 @@ const Contact = ({ language }) => {
       // Initialize EmailJS
       emailjs.init(EMAILJS_PUBLIC_KEY);
 
+      // Template parameters - usando nomes padrão do EmailJS
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+        to_email: 'willydev01@gmail.com',
+        reply_to: formData.email
+      };
+
+      console.log('Enviando email com parâmetros:', templateParams);
+
       // Send email
       const result = await emailjs.send(
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
-        {
-          from_name: formData.name,
-          from_email: formData.email,
-          subject: formData.subject,
-          message: formData.message,
-          to_email: 'willydev01@gmail.com'
-        }
+        templateParams
       );
 
       if (result.status === 200) {
@@ -116,6 +122,11 @@ const Contact = ({ language }) => {
       }
     } catch (error) {
       console.error('Error sending email:', error);
+      console.error('Error details:', {
+        status: error.status,
+        text: error.text,
+        message: error.message
+      });
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
