@@ -67,6 +67,9 @@ const Contact = ({ language }) => {
   const EMAILJS_TEMPLATE_ID = 'template_d8fgg8g';
   const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
+  // Debug: verificar se a chave está sendo carregada
+  console.log('EmailJS Public Key:', EMAILJS_PUBLIC_KEY ? 'Configurada' : 'NÃO CONFIGURADA');
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -79,6 +82,14 @@ const Contact = ({ language }) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus(null);
+
+    // Verificar se a chave pública está configurada
+    if (!EMAILJS_PUBLIC_KEY) {
+      console.error('EmailJS Public Key não configurada!');
+      setSubmitStatus('error');
+      setIsSubmitting(false);
+      return;
+    }
 
     try {
       // Initialize EmailJS

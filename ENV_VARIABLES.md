@@ -28,6 +28,8 @@ Para testar localmente, crie um arquivo `.env.local` na raiz do projeto:
 VITE_EMAILJS_PUBLIC_KEY=sua_public_key_aqui
 ```
 
+**Importante**: O arquivo `.env.local` deve estar na raiz do projeto (mesmo nível do package.json)
+
 ## Como obter a Public Key
 
 1. Acesse https://www.emailjs.com/
@@ -49,3 +51,31 @@ Após configurar a variável no Vercel:
 2. Vá na seção "Contato"
 3. Preencha e envie o formulário
 4. Verifique se o email chegou em willydev01@gmail.com
+
+## Troubleshooting
+
+### Erro: "The public key is required"
+
+**Causa**: A variável `VITE_EMAILJS_PUBLIC_KEY` não está configurada ou não foi carregada.
+
+**Soluções**:
+
+1. **Verificar no Vercel**:
+   - Vá em Settings > Environment Variables
+   - Confirme que `VITE_EMAILJS_PUBLIC_KEY` está listada
+   - Verifique se o valor está correto (sem espaços extras)
+
+2. **Redeploy obrigatório**:
+   - Após adicionar/alterar variáveis, sempre faça redeploy
+   - Vá em Deployments > três pontos > Redeploy
+
+3. **Verificar no console**:
+   - Abra o DevTools (F12)
+   - Vá na aba Console
+   - Procure por: "EmailJS Public Key: Configurada" ou "NÃO CONFIGURADA"
+
+4. **Teste local**:
+   - Crie `.env.local` na raiz do projeto
+   - Adicione: `VITE_EMAILJS_PUBLIC_KEY=sua_chave`
+   - Execute: `pnpm dev`
+   - Teste localmente primeiro
