@@ -6,13 +6,13 @@ const About = ({ language }) => {
     'pt-BR': {
       title: 'Sobre Mim',
       subtitle: 'Conheça um pouco mais sobre minha jornada',
-      description: 'Sou Willy Henrique, estudante de Engenharia de Software no 5º semestre, com 21 anos. Apaixonado por tecnologia, estou sempre em busca de aprender novas tecnologias e aprimorar minhas habilidades. Atualmente, sou especializado em Desenvolvimento Front-end e Mobile, trabalhando com Vue.js, React e Kotlin.',
+      description: 'Sou Willy Henrique, estudante de Engenharia de Software no 6º período, com 22 anos. Apaixonado por tecnologia, estou sempre em busca de aprender novas tecnologias e aprimorar minhas habilidades. Atualmente, sou especializado em Desenvolvimento Front-end e Mobile, trabalhando com Vue.js, React e Kotlin.',
       experience: 'Com experiência no desenvolvimento web e mobile, crio soluções eficientes e elegantes para os desafios digitais modernos. Residente em Goiânia, Brasil, busco constantemente oportunidades para expandir meu conhecimento e minha expertise.',
       highlights: [
         {
           icon: GraduationCap,
           title: 'Educação',
-          description: 'Engenharia de Software - 5º Semestre'
+          description: 'Engenharia de Software - 6º Período'
         },
         {
           icon: MapPin,
@@ -22,7 +22,7 @@ const About = ({ language }) => {
         {
           icon: Calendar,
           title: 'Idade',
-          description: '21 anos'
+          description: '22 anos'
         },
         {
           icon: Code,
@@ -44,13 +44,13 @@ const About = ({ language }) => {
     'en': {
       title: 'About Me',
       subtitle: 'Learn a little more about my journey',
-      description: 'I am Willy Henrique, a Software Engineering student in the 5th semester, 21 years old. Passionate about technology, I am always looking to learn new technologies and improve my skills. Currently, I specialize in Front-end and Mobile Development, working with Vue.js, React and Kotlin.',
+      description: 'I am Willy Henrique, a Software Engineering student in the 6th period, 22 years old. Passionate about technology, I am always looking to learn new technologies and improve my skills. Currently, I specialize in Front-end and Mobile Development, working with Vue.js, React and Kotlin.',
       experience: 'With experience in web and mobile development, I create efficient and elegant solutions for modern digital challenges. Resident in Goiânia, Brazil, I constantly seek opportunities to expand my knowledge and expertise.',
       highlights: [
         {
           icon: GraduationCap,
           title: 'Education',
-          description: 'Software Engineering - 5th Semester'
+          description: 'Software Engineering - 6th Period'
         },
         {
           icon: MapPin,
@@ -60,7 +60,7 @@ const About = ({ language }) => {
         {
           icon: Calendar,
           title: 'Age',
-          description: '21 years old'
+          description: '22 years old'
         },
         {
           icon: Code,
