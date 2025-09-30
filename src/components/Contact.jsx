@@ -63,9 +63,9 @@ const Contact = ({ language }) => {
   const t = translations[language];
 
   // EmailJS configuration
-  const EMAILJS_SERVICE_ID = 'service_portfolio';
-  const EMAILJS_TEMPLATE_ID = 'template_contact';
-  const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY'; // You'll need to replace this with your actual key
+  const EMAILJS_SERVICE_ID = 'service_d2q5q3g';
+  const EMAILJS_TEMPLATE_ID = 'template_d8fgg8g';
+  const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

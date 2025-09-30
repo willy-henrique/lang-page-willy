@@ -42,14 +42,15 @@ Enviado através do formulário de contato do portfólio.
 1. Vá em "Account" > "General"
 2. Copie sua **Public Key** (ex: xxxxxxxxxxxxxxxxxxxx)
 
-## 5. Atualizar o código
-No arquivo `src/components/Contact.jsx`, substitua:
+## 5. Configurar variável de ambiente
+✅ **Service ID e Template ID já configurados no código:**
+- Service ID: `service_d2q5q3g`
+- Template ID: `template_d8fgg8g`
 
-```javascript
-const EMAILJS_SERVICE_ID = 'service_portfolio'; // Substitua pelo seu Service ID
-const EMAILJS_TEMPLATE_ID = 'template_contact'; // Substitua pelo seu Template ID
-const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY'; // Substitua pela sua Public Key
-```
+**Apenas configure a Public Key no Vercel:**
+1. Vá em Settings > Environment Variables
+2. Adicione: `VITE_EMAILJS_PUBLIC_KEY` = sua_public_key
+3. Faça redeploy
 
 ## 6. Testar
 1. Salve as alterações
