@@ -97,10 +97,10 @@ const Contact = ({ language }) => {
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             <span className="text-gradient">{t.title}</span>
           </h2>
-          <p className="text-foreground/60 max-w-2xl mx-auto mb-6">
+          <p className="text-white/90 max-w-2xl mx-auto mb-6 text-lg">
             {t.subtitle}
           </p>
-          <p className="text-foreground/70 max-w-3xl mx-auto">
+          <p className="text-white/80 max-w-3xl mx-auto text-base">
             {t.description}
           </p>
         </motion.div>
@@ -113,7 +113,7 @@ const Contact = ({ language }) => {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h3 className="text-2xl font-bold mb-8">{t.getInTouch}</h3>
+            <h3 className="text-2xl font-bold mb-8 text-white">{t.getInTouch}</h3>
             
             <div className="space-y-6">
               {contactInfo.map((item, index) => (
@@ -131,7 +131,7 @@ const Contact = ({ language }) => {
                       <item.icon className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-foreground mb-1">
+                      <h4 className="font-semibold text-white mb-1">
                         {item.label}
                       </h4>
                       {item.href !== '#' ? (
@@ -139,12 +139,12 @@ const Contact = ({ language }) => {
                           href={item.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-foreground/70 hover:text-primary transition-colors duration-200"
+                          className="text-white/80 hover:text-blue-300 transition-colors duration-200"
                         >
                           {item.value}
                         </a>
                       ) : (
-                        <p className="text-foreground/70">{item.value}</p>
+                        <p className="text-white/80">{item.value}</p>
                       )}
                     </div>
                   </div>
@@ -189,14 +189,14 @@ const Contact = ({ language }) => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-2xl p-8"
           >
-            <h3 className="text-2xl font-bold mb-6">
+            <h3 className="text-2xl font-bold mb-6 text-white">
               {language === 'pt-BR' ? 'Envie uma Mensagem' : 'Send a Message'}
             </h3>
             
             <form className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium mb-2">
+                  <label className="block text-sm font-medium mb-2 text-white/90">
                     {t.form.name}
                   </label>
                   <input
@@ -206,7 +206,7 @@ const Contact = ({ language }) => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2">
+                  <label className="block text-sm font-medium mb-2 text-white/90">
                     {t.form.email}
                   </label>
                   <input
@@ -218,7 +218,7 @@ const Contact = ({ language }) => {
               </div>
               
               <div>
-                <label className="block text-sm font-medium mb-2">
+                <label className="block text-sm font-medium mb-2 text-white/90">
                   {t.form.subject}
                 </label>
                 <input
@@ -229,7 +229,7 @@ const Contact = ({ language }) => {
               </div>
               
               <div>
-                <label className="block text-sm font-medium mb-2">
+                <label className="block text-sm font-medium mb-2 text-white/90">
                   {t.form.message}
                 </label>
                 <textarea
