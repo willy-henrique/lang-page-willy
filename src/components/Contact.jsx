@@ -1,7 +1,18 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Github, Instagram, Linkedin, MapPin, Phone, Send } from 'lucide-react';
+import { Mail, Github, Instagram, Linkedin, MapPin, Phone, Send, CheckCircle, AlertCircle } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 
 const Contact = ({ language }) => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null); // 'success', 'error', null
+
   const translations = {
     'pt-BR': {
       title: 'Contato',
@@ -9,7 +20,7 @@ const Contact = ({ language }) => {
       description: 'Estou sempre aberto a novas oportunidades e projetos interessantes. Se você tem uma ideia ou precisa de ajuda com desenvolvimento, não hesite em entrar em contato.',
       getInTouch: 'Entre em Contato',
       location: 'Goiânia, Brasil',
-      email: 'henriquewilly03@gmail.com',
+      email: 'willydev01@gmail.com',
       form: {
         name: 'Nome',
         email: 'Email',
@@ -19,7 +30,10 @@ const Contact = ({ language }) => {
         namePlaceholder: 'Seu nome',
         emailPlaceholder: 'seu@email.com',
         subjectPlaceholder: 'Assunto da mensagem',
-        messagePlaceholder: 'Sua mensagem...'
+        messagePlaceholder: 'Sua mensagem...',
+        sending: 'Enviando...',
+        successMessage: 'Mensagem enviada com sucesso!',
+        errorMessage: 'Erro ao enviar mensagem. Tente novamente.'
       }
     },
     'en': {
@@ -28,7 +42,7 @@ const Contact = ({ language }) => {
       description: 'I am always open to new opportunities and interesting projects. If you have an idea or need help with development, don\'t hesitate to get in touch.',
       getInTouch: 'Get In Touch',
       location: 'Goiânia, Brazil',
-      email: 'henriquewilly03@gmail.com',
+      email: 'willydev01@gmail.com',
       form: {
         name: 'Name',
         email: 'Email',
@@ -38,12 +52,64 @@ const Contact = ({ language }) => {
         namePlaceholder: 'Your name',
         emailPlaceholder: 'your@email.com',
         subjectPlaceholder: 'Message subject',
-        messagePlaceholder: 'Your message...'
+        messagePlaceholder: 'Your message...',
+        sending: 'Sending...',
+        successMessage: 'Message sent successfully!',
+        errorMessage: 'Error sending message. Please try again.'
       }
     }
   };
 
   const t = translations[language];
+
+  // EmailJS configuration
+  const EMAILJS_SERVICE_ID = 'service_portfolio';
+  const EMAILJS_TEMPLATE_ID = 'template_contact';
+  const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY'; // You'll need to replace this with your actual key
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    try {
+      // Initialize EmailJS
+      emailjs.init(EMAILJS_PUBLIC_KEY);
+
+      // Send email
+      const result = await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+          to_email: 'willydev01@gmail.com'
+        }
+      );
+
+      if (result.status === 200) {
+        setSubmitStatus('success');
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (error) {
+      console.error('Error sending email:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const contactInfo = [
     {
@@ -193,7 +259,30 @@ const Contact = ({ language }) => {
               {language === 'pt-BR' ? 'Envie uma Mensagem' : 'Send a Message'}
             </h3>
             
-            <form className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Status Messages */}
+              {submitStatus === 'success' && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex items-center space-x-2 p-4 bg-green-500/20 border border-green-500/30 rounded-lg text-green-400"
+                >
+                  <CheckCircle size={20} />
+                  <span>{t.form.successMessage}</span>
+                </motion.div>
+              )}
+              
+              {submitStatus === 'error' && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex items-center space-x-2 p-4 bg-red-500/20 border border-red-500/30 rounded-lg text-red-400"
+                >
+                  <AlertCircle size={20} />
+                  <span>{t.form.errorMessage}</span>
+                </motion.div>
+              )}
+
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium mb-2 text-white/90">
@@ -201,8 +290,12 @@ const Contact = ({ language }) => {
                   </label>
                   <input
                     type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
                     placeholder={t.form.namePlaceholder}
-                    className="w-full px-4 py-3 bg-background/50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all duration-200"
+                    required
+                    className="w-full px-4 py-3 bg-background/50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all duration-200 text-white"
                   />
                 </div>
                 <div>
@@ -211,8 +304,12 @@ const Contact = ({ language }) => {
                   </label>
                   <input
                     type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
                     placeholder={t.form.emailPlaceholder}
-                    className="w-full px-4 py-3 bg-background/50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all duration-200"
+                    required
+                    className="w-full px-4 py-3 bg-background/50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all duration-200 text-white"
                   />
                 </div>
               </div>
@@ -223,8 +320,12 @@ const Contact = ({ language }) => {
                 </label>
                 <input
                   type="text"
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleInputChange}
                   placeholder={t.form.subjectPlaceholder}
-                  className="w-full px-4 py-3 bg-background/50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all duration-200"
+                  required
+                  className="w-full px-4 py-3 bg-background/50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all duration-200 text-white"
                 />
               </div>
               
@@ -234,19 +335,28 @@ const Contact = ({ language }) => {
                 </label>
                 <textarea
                   rows={6}
+                  name="message"
+                  value={formData.message}
+                  onChange={handleInputChange}
                   placeholder={t.form.messagePlaceholder}
-                  className="w-full px-4 py-3 bg-background/50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all duration-200 resize-none"
+                  required
+                  className="w-full px-4 py-3 bg-background/50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all duration-200 resize-none text-white"
                 ></textarea>
               </div>
               
               <motion.button
                 type="submit"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full bg-primary text-primary-foreground py-3 px-6 rounded-lg font-medium flex items-center justify-center space-x-2 hover:bg-primary/80 transition-colors duration-200"
+                disabled={isSubmitting}
+                whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
+                whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
+                className={`w-full py-3 px-6 rounded-lg font-medium flex items-center justify-center space-x-2 transition-colors duration-200 ${
+                  isSubmitting 
+                    ? 'bg-gray-500 cursor-not-allowed' 
+                    : 'bg-primary text-primary-foreground hover:bg-primary/80'
+                }`}
               >
                 <Send size={20} />
-                <span>{t.form.send}</span>
+                <span>{isSubmitting ? t.form.sending : t.form.send}</span>
               </motion.button>
             </form>
           </motion.div>
