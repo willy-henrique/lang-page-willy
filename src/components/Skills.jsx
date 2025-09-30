@@ -54,7 +54,7 @@ const Skills = ({ language }) => {
   };
 
   return (
-    <section id="skills" className="py-20 bg-background">
+    <section id="skills" className="section-padding bg-background prevent-jump">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div

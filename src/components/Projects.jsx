@@ -116,7 +116,7 @@ const Projects = ({ language }) => {
   const t = translations[language];
 
   return (
-    <section id="projects" className="py-20 gradient-bg">
+    <section id="projects" className="section-padding gradient-bg prevent-jump">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div

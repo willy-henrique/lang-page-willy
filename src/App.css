@@ -119,6 +119,7 @@
   }
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 80px;
   }
 }
 
@@ -148,5 +149,20 @@
   
   .project-card {
     @apply bg-card/80 backdrop-blur-sm border border-border/50 rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:border-primary/50;
+  }
+  
+  .smooth-scroll {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+  }
+  
+  .section-padding {
+    @apply py-16 sm:py-20 lg:py-24;
+  }
+  
+  .prevent-jump {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
   }
 }

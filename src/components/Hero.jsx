@@ -139,7 +139,7 @@ const Hero = ({ language }) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.2 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-12"
             >
               <motion.a
                 href="/Curriculo_Willy_Henrique.pdf"
@@ -154,12 +154,52 @@ const Hero = ({ language }) => {
 
               <motion.a
                 href="#contact"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const targetElement = document.getElementById('contact');
+                  if (targetElement) {
+                    const offsetTop = targetElement.offsetTop - 80;
+                    window.scrollTo({
+                      top: offsetTop,
+                      behavior: 'smooth'
+                    });
+                  }
+                }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="flex items-center justify-center space-x-2 border border-border px-6 py-3 rounded-lg font-medium transition-all duration-300 hover:bg-secondary/50"
+                className="flex items-center justify-center space-x-2 border border-border px-6 py-3 rounded-lg font-medium transition-all duration-300 hover:bg-secondary/50 cursor-pointer"
               >
                 <Mail size={20} />
                 <span>{t.contactMe}</span>
+              </motion.a>
+            </motion.div>
+
+            {/* Scroll Down Text */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.4 }}
+              className="text-center lg:text-left"
+            >
+              <motion.a
+                href="#about"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const targetElement = document.getElementById('about');
+                  if (targetElement) {
+                    const offsetTop = targetElement.offsetTop - 80;
+                    window.scrollTo({
+                      top: offsetTop,
+                      behavior: 'smooth'
+                    });
+                  }
+                }}
+                animate={{ y: [0, 8, 0] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="inline-flex flex-col items-center text-foreground/60 hover:text-foreground/80 transition-colors duration-300 cursor-pointer"
+              >
+                <span className="text-sm mb-1">{t.scrollDown}</span>
+                <ChevronDown size={20} />
               </motion.a>
             </motion.div>
           </motion.div>
@@ -199,23 +239,6 @@ const Hero = ({ language }) => {
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2 }}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-      >
-        <motion.a
-          href="#about"
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="flex flex-col items-center text-foreground/60 hover:text-foreground/80 transition-colors duration-300"
-        >
-          <span className="text-sm mb-2">{t.scrollDown}</span>
-          <ChevronDown size={24} />
-        </motion.a>
-      </motion.div>
     </section>
   );
 };

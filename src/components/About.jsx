@@ -84,7 +84,7 @@ const About = ({ language }) => {
   const t = translations[language];
 
   return (
-    <section id="about" className="py-20 bg-background">
+    <section id="about" className="section-padding bg-background prevent-jump">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div

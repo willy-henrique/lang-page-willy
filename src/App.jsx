@@ -42,7 +42,7 @@ function App() {
   }), [language]);
 
   return (
-    <div className="min-h-screen bg-background text-foreground smooth-scroll">
+    <div className="min-h-screen bg-background text-foreground prevent-jump">
       <Navigation language={language} setLanguage={setLanguage} />
       <Hero language={language} />
       

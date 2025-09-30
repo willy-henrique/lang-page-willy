@@ -24,10 +24,17 @@ const Navigation = ({ language, setLanguage }) => {
   const t = translations[language];
 
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 50);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -40,6 +47,19 @@ const Navigation = ({ language, setLanguage }) => {
 
   const toggleLanguage = () => {
     setLanguage(language === 'pt-BR' ? 'en' : 'pt-BR');
+  };
+
+  const handleSmoothScroll = (e, href) => {
+    e.preventDefault();
+    const targetId = href.replace('#', '');
+    const targetElement = document.getElementById(targetId);
+    if (targetElement) {
+      const offsetTop = targetElement.offsetTop - 80; // Account for fixed header
+      window.scrollTo({
+        top: offsetTop,
+        behavior: 'smooth'
+      });
+    }
   };
 
   return (
@@ -68,8 +88,9 @@ const Navigation = ({ language, setLanguage }) => {
               <motion.a
                 key={item.href}
                 href={item.href}
+                onClick={(e) => handleSmoothScroll(e, item.href)}
                 whileHover={{ scale: 1.05 }}
-                className="text-foreground/80 hover:text-primary transition-colors duration-200"
+                className="text-foreground/80 hover:text-primary transition-colors duration-200 cursor-pointer"
               >
                 {item.label}
               </motion.a>
@@ -129,11 +150,14 @@ const Navigation = ({ language, setLanguage }) => {
                 <motion.a
                   key={item.href}
                   href={item.href}
+                  onClick={(e) => {
+                    handleSmoothScroll(e, item.href);
+                    setIsOpen(false);
+                  }}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  onClick={() => setIsOpen(false)}
-                  className="block text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors duration-200 py-2 text-base"
+                  className="block text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors duration-200 py-2 text-base cursor-pointer"
                 >
                   {item.label}
                 </motion.a>
