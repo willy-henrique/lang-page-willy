@@ -1,9 +1,12 @@
 import { motion } from 'framer-motion';
-import { ExternalLink, Github, Smartphone, Globe, Database } from 'lucide-react';
+import { ExternalLink, Github, Smartphone, Globe, Database, Calendar, Briefcase, Sparkles } from 'lucide-react';
 import projetoLojaMoveisImg from '../assets/projeto-loja-moveis.png';
 import projetoModbusTcpipImg from '../assets/projeto-modbus-tcpip.jpg';
 import projetoCalculadoraGadoImg from '../assets/projeto-calculadora-gado.jpg';
 import projetoLeogasImg from '../assets/projeto-leogas.svg';
+import projetoLeonicoImg from '../assets/leonico-barbearia.png';
+import projetoAquiresolveImg from '../assets/aquiresolve2.png';
+import projetoEssencialleImg from '../assets/Essenciallelogo.png';
 
 const Projects = ({ language }) => {
   const translations = {
@@ -56,6 +59,39 @@ const Projects = ({ language }) => {
           githubUrl: '#',
           category: 'Web Development',
           icon: Globe
+        },
+        {
+          id: 5,
+          title: 'Leônico Barbearia - Sistema de Agendamento',
+          description: 'Sistema completo de agendamento online para barbearia. Permite que clientes escolham barbeiros e agendem horários de forma rápida e prática através de uma interface moderna e intuitiva.',
+          image: projetoLeonicoImg,
+          technologies: ['React', 'Web App', 'Agendamento', 'UI/UX', 'Responsive Design'],
+          liveUrl: 'https://barber-leonico.vercel.app/',
+          githubUrl: '#',
+          category: 'Desenvolvimento Web',
+          icon: Calendar
+        },
+        {
+          id: 6,
+          title: 'AquiResolve - Sistema Administrativo',
+          description: 'Sistema completo para gestão empresarial disponível em web e mobile. Monitore, analise e tome decisões baseadas em dados precisos sobre suas operações. Controle total sobre pedidos, clientes e operações do seu negócio.',
+          image: projetoAquiresolveImg,
+          technologies: ['React', 'Kotlin', 'Android', 'Sistema Administrativo', 'Gestão', 'Dashboard', 'Business Intelligence'],
+          liveUrl: '#',
+          githubUrl: '#',
+          category: 'Sistema Administrativo',
+          icon: Briefcase
+        },
+        {
+          id: 7,
+          title: 'Essencialle Studio - Agendamento de Beleza',
+          description: 'Landing page moderna para estúdio de beleza e cuidado pessoal. Sistema de agendamento online que oferece uma experiência única de cuidado personalizado. Interface elegante com gradientes suaves e design responsivo.',
+          image: projetoEssencialleImg,
+          technologies: ['React', 'Web App', 'Agendamento', 'UI/UX', 'Responsive Design', 'Landing Page'],
+          liveUrl: 'https://nail-designer-chi.vercel.app/',
+          githubUrl: '#',
+          category: 'Desenvolvimento Web',
+          icon: Sparkles
         }
       ]
     },
@@ -108,6 +144,39 @@ const Projects = ({ language }) => {
           githubUrl: '#',
           category: 'Web Development',
           icon: Globe
+        },
+        {
+          id: 5,
+          title: 'Leônico Barbearia - Appointment System',
+          description: 'Complete online appointment system for barbershop. Allows customers to choose barbers and schedule appointments quickly and easily through a modern and intuitive interface.',
+          image: projetoLeonicoImg,
+          technologies: ['React', 'Web App', 'Scheduling', 'UI/UX', 'Responsive Design'],
+          liveUrl: 'https://barber-leonico.vercel.app/',
+          githubUrl: '#',
+          category: 'Web Development',
+          icon: Calendar
+        },
+        {
+          id: 6,
+          title: 'AquiResolve - Administrative System',
+          description: 'Complete system for business management available on web and mobile. Monitor, analyze and make decisions based on precise data about your operations. Total control over orders, clients and business operations.',
+          image: projetoAquiresolveImg,
+          technologies: ['React', 'Kotlin', 'Android', 'Administrative System', 'Management', 'Dashboard', 'Business Intelligence'],
+          liveUrl: '#',
+          githubUrl: '#',
+          category: 'Administrative System',
+          icon: Briefcase
+        },
+        {
+          id: 7,
+          title: 'Essencialle Studio - Beauty Booking',
+          description: 'Modern landing page for beauty and personal care studio. Online appointment system that offers a unique personalized care experience. Elegant interface with soft gradients and responsive design.',
+          image: projetoEssencialleImg,
+          technologies: ['React', 'Web App', 'Scheduling', 'UI/UX', 'Responsive Design', 'Landing Page'],
+          liveUrl: 'https://nail-designer-chi.vercel.app/',
+          githubUrl: '#',
+          category: 'Web Development',
+          icon: Sparkles
         }
       ]
     }
