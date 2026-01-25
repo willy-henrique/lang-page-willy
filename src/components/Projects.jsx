@@ -97,7 +97,7 @@ const Projects = ({ language }) => {
         {
           id: 8,
           title: 'WillTech Power Business - BI Analytics',
-          description: 'Sistema de Business Intelligence integrado ao ERP Auge (sistema de supermercado). Dashboard completo com análise de vendas, KPIs em tempo real, performance diária, distribuição por categorias e gestão financeira. Centro de comando para tomada de decisões estratégicas baseadas em dados.',
+          description: 'Sistema de Business Intelligence integrado ao ERP Auge (sistema de supermercado). Dashboard completo com análise de vendas, KPIs em tempo real, performance diária, distribuição por categorias e gestão financeira. Centro de comando para tomada de decisões estratégicas baseadas em dados. WillTech Power Business - Matriz Analytics.',
           image: projetoWilltechBiImg,
           technologies: ['Business Intelligence', 'Dashboard', 'Analytics', 'ERP Integration', 'Data Visualization', 'KPIs', 'React'],
           liveUrl: '#',
