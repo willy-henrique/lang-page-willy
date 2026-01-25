@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ExternalLink, Github, Smartphone, Globe, Database, Calendar, Briefcase, Sparkles } from 'lucide-react';
+import { ExternalLink, Github, Smartphone, Globe, Database, Calendar, Briefcase, Sparkles, BarChart3 } from 'lucide-react';
 import projetoLojaMoveisImg from '../assets/projeto-loja-moveis.png';
 import projetoModbusTcpipImg from '../assets/projeto-modbus-tcpip.jpg';
 import projetoCalculadoraGadoImg from '../assets/projeto-calculadora-gado.jpg';
@@ -7,6 +7,7 @@ import projetoLeogasImg from '../assets/projeto-leogas.svg';
 import projetoLeonicoImg from '../assets/leonico-barbearia.png';
 import projetoAquiresolveImg from '../assets/aquiresolve2.png';
 import projetoEssencialleImg from '../assets/Essenciallelogo.png';
+import projetoWilltechBiImg from '../assets/willtech-bi-dashboard.png';
 
 const Projects = ({ language }) => {
   const translations = {
@@ -92,6 +93,17 @@ const Projects = ({ language }) => {
           githubUrl: '#',
           category: 'Desenvolvimento Web',
           icon: Sparkles
+        },
+        {
+          id: 8,
+          title: 'WillTech Power Business - BI Analytics',
+          description: 'Sistema de Business Intelligence integrado ao ERP Auge (sistema de supermercado). Dashboard completo com análise de vendas, KPIs em tempo real, performance diária, distribuição por categorias e gestão financeira. Centro de comando para tomada de decisões estratégicas baseadas em dados.',
+          image: projetoWilltechBiImg,
+          technologies: ['Business Intelligence', 'Dashboard', 'Analytics', 'ERP Integration', 'Data Visualization', 'KPIs', 'React'],
+          liveUrl: '#',
+          githubUrl: '#',
+          category: 'Business Intelligence',
+          icon: BarChart3
         }
       ]
     },
@@ -177,6 +189,17 @@ const Projects = ({ language }) => {
           githubUrl: '#',
           category: 'Web Development',
           icon: Sparkles
+        },
+        {
+          id: 8,
+          title: 'WillTech Power Business - BI Analytics',
+          description: 'Business Intelligence system integrated with Auge ERP (supermarket system). Complete dashboard with sales analysis, real-time KPIs, daily performance, category distribution and financial management. Command center for strategic data-driven decision making.',
+          image: projetoWilltechBiImg,
+          technologies: ['Business Intelligence', 'Dashboard', 'Analytics', 'ERP Integration', 'Data Visualization', 'KPIs', 'React'],
+          liveUrl: '#',
+          githubUrl: '#',
+          category: 'Business Intelligence',
+          icon: BarChart3
         }
       ]
     }
