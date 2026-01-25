@@ -749,8 +749,6 @@ Fully functional system actively used by the company, with version 3.0 in produc
       
       {/* Footer spacing */}
       <div className="h-8 sm:h-12 md:h-16" />
-        </div>
-      </section>
     </div>
   );
 };
