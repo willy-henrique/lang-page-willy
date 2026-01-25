@@ -1,5 +1,7 @@
+import { memo } from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Github, Smartphone, Globe, Database, Calendar, Briefcase, Sparkles, BarChart3 } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ExternalLink, Github, Smartphone, Globe, Database, Calendar, Briefcase, Sparkles, BarChart3, FileText, Bug } from 'lucide-react';
 import projetoLojaMoveisImg from '../assets/projeto-loja-moveis.png';
 import projetoModbusTcpipImg from '../assets/projeto-modbus-tcpip.jpg';
 import projetoCalculadoraGadoImg from '../assets/projeto-calculadora-gado.jpg';
@@ -8,6 +10,8 @@ import projetoLeonicoImg from '../assets/leonico-barbearia.png';
 import projetoAquiresolveImg from '../assets/aquiresolve2.png';
 import projetoEssencialleImg from '../assets/Essenciallelogo.png';
 import projetoWilltechBiImg from '../assets/willtech-bi-dashboard.jpg'; // WillTech BI Dashboard
+import projetoDedetizacaoWebImg from '../assets/dedetizacao.png';
+import projetoDedetizacaoMobileImg from '../assets/mobile-dedetizacao.png';
 
 const Projects = ({ language }) => {
   const translations = {
@@ -70,7 +74,8 @@ const Projects = ({ language }) => {
           liveUrl: 'https://barber-leonico.vercel.app/',
           githubUrl: '#',
           category: 'Desenvolvimento Web',
-          icon: Calendar
+          icon: Calendar,
+          routePath: 'leonico-barbearia'
         },
         {
           id: 6,
@@ -103,7 +108,32 @@ const Projects = ({ language }) => {
           liveUrl: '#',
           githubUrl: '#',
           category: 'Business Intelligence',
-          icon: BarChart3
+          icon: BarChart3,
+          routePath: 'willtech-bi'
+        },
+        {
+          id: 9,
+          title: 'Sistema Web de Ordem de Serviço (OS)',
+          description: 'Sistema web completo para criação e gestão de Ordens de Serviço (OS) com integração total ao aplicativo mobile. Permite criar, editar, acompanhar e sincronizar OS em tempo real entre web e mobile. Totalmente funcional com workflow completo de aprovação e execução.',
+          image: projetoAquiresolveImg,
+          technologies: ['React', 'Web App', 'Mobile Integration', 'Real-time Sync', 'Workflow', 'API Integration', 'Responsive Design'],
+          liveUrl: '#',
+          githubUrl: '#',
+          category: 'Sistema Web/Mobile',
+          icon: FileText,
+          routePath: 'sistema-os'
+        },
+        {
+          id: 10,
+          title: 'NATURIZE Dedetização - Sistema Completo',
+          description: 'Sistema completo de gestão para empresa de dedetização com dashboard web e aplicativo mobile. Gestão de clientes, ordens de serviço, técnicos, estoque, produtos, financeiro e relatórios. Projeto ativo em produção na empresa.',
+          image: projetoDedetizacaoWebImg,
+          technologies: ['React', 'Kotlin', 'Android', 'Dashboard', 'Mobile App', 'Gestão', 'Web App', 'API Integration'],
+          liveUrl: '#',
+          githubUrl: '#',
+          category: 'Sistema Completo Web/Mobile',
+          icon: Bug,
+          routePath: 'naturize-dedetizacao'
         }
       ]
     },
@@ -166,7 +196,8 @@ const Projects = ({ language }) => {
           liveUrl: 'https://barber-leonico.vercel.app/',
           githubUrl: '#',
           category: 'Web Development',
-          icon: Calendar
+          icon: Calendar,
+          routePath: 'leonico-barbearia'
         },
         {
           id: 6,
@@ -199,7 +230,32 @@ const Projects = ({ language }) => {
           liveUrl: '#',
           githubUrl: '#',
           category: 'Business Intelligence',
-          icon: BarChart3
+          icon: BarChart3,
+          routePath: 'willtech-bi'
+        },
+        {
+          id: 9,
+          title: 'Service Order (OS) Web System',
+          description: 'Complete web system for creating and managing Service Orders (OS) with full integration to mobile app. Allows creating, editing, tracking and real-time synchronization of OS between web and mobile. Fully functional with complete approval and execution workflow.',
+          image: projetoAquiresolveImg,
+          technologies: ['React', 'Web App', 'Mobile Integration', 'Real-time Sync', 'Workflow', 'API Integration', 'Responsive Design'],
+          liveUrl: '#',
+          githubUrl: '#',
+          category: 'Web/Mobile System',
+          icon: FileText,
+          routePath: 'sistema-os'
+        },
+        {
+          id: 10,
+          title: 'NATURIZE Pest Control - Complete System',
+          description: 'Complete management system for pest control company with web dashboard and mobile app. Management of clients, service orders, technicians, stock, products, financial and reports. Active project in production at the company.',
+          image: projetoDedetizacaoWebImg,
+          technologies: ['React', 'Kotlin', 'Android', 'Dashboard', 'Mobile App', 'Management', 'Web App', 'API Integration'],
+          liveUrl: '#',
+          githubUrl: '#',
+          category: 'Complete Web/Mobile System',
+          icon: Bug,
+          routePath: 'naturize-dedetizacao'
         }
       ]
     }
@@ -226,8 +282,8 @@ const Projects = ({ language }) => {
           </p>
         </motion.div>
 
-        {/* Projects Grid - Responsive Design */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+        {/* Projects Grid - Enhanced Responsive Design */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 md:gap-6 lg:gap-7">
           {t.projects.map((project, index) => (
             <motion.div
               key={project.id}
@@ -235,10 +291,10 @@ const Projects = ({ language }) => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group relative bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-xl overflow-hidden hover:border-blue-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/10"
+              className="group relative bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border border-gray-200/60 dark:border-gray-700/60 rounded-xl sm:rounded-2xl overflow-hidden hover:border-blue-500/60 dark:hover:border-blue-400/60 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/20 dark:hover:shadow-blue-400/20 hover:-translate-y-1"
             >
-              {/* Project Image - Responsive */}
-              <div className="relative h-40 sm:h-32 overflow-hidden">
+              {/* Project Image - Enhanced Responsive */}
+              <div className="relative h-52 sm:h-44 md:h-40 lg:h-36 xl:h-32 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800">
                 <img 
                   src={project.image} 
                   alt={project.title}
@@ -248,9 +304,9 @@ const Projects = ({ language }) => {
                 {/* Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                 
-                {/* Category Badge */}
-                <div className="absolute top-3 left-3">
-                  <span className="text-xs font-medium text-white bg-blue-600/90 backdrop-blur-sm px-2 py-1 rounded-full">
+                {/* Category Badge - Enhanced */}
+                <div className="absolute top-3 left-3 sm:top-4 sm:left-4">
+                  <span className="text-xs sm:text-xs font-semibold text-white bg-gradient-to-r from-blue-600/95 to-cyan-600/95 backdrop-blur-md px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full shadow-lg border border-white/20">
                     {project.category}
                   </span>
                 </div>
@@ -285,47 +341,54 @@ const Projects = ({ language }) => {
                 </div>
               </div>
 
-              {/* Project Content - Responsive */}
-              <div className="p-3 sm:p-4">
-                <h3 className="text-base sm:text-lg font-bold mb-2 group-hover:text-blue-600 transition-colors duration-200 line-clamp-1">
+              {/* Project Content - Enhanced Responsive */}
+              <div className="p-4 sm:p-5 md:p-6">
+                <h3 className="text-lg sm:text-xl md:text-xl font-bold mb-2 sm:mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200 line-clamp-2 leading-tight">
                   {project.title}
                 </h3>
 
-                <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm mb-3 line-clamp-2">
+                <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-sm md:text-base mb-3 sm:mb-4 md:mb-5 line-clamp-3 leading-relaxed">
                   {project.description}
                 </p>
 
-                {/* Technologies - Responsive */}
-                <div className="flex flex-wrap gap-1 mb-3 sm:mb-4">
+                {/* Technologies - Enhanced Responsive */}
+                <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-5 md:mb-6">
                   {project.technologies.slice(0, 3).map((tech, techIndex) => (
                     <span
                       key={techIndex}
-                      className="text-xs bg-gray-200/30 dark:bg-gray-700/30 text-gray-700 dark:text-gray-300 px-2 py-1 rounded-md"
+                      className="text-xs sm:text-xs md:text-sm bg-gradient-to-r from-gray-100/50 to-gray-200/50 dark:from-gray-700/50 dark:to-gray-600/50 text-gray-700 dark:text-gray-300 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-md sm:rounded-lg font-medium border border-gray-200/50 dark:border-gray-600/50"
                     >
                       {tech}
                     </span>
                   ))}
                   {project.technologies.length > 3 && (
-                    <span className="text-xs bg-gray-200/30 dark:bg-gray-700/30 text-gray-700 dark:text-gray-300 px-2 py-1 rounded-md">
+                    <span className="text-xs sm:text-xs md:text-sm bg-gradient-to-r from-blue-100/50 to-cyan-100/50 dark:from-blue-900/30 dark:to-cyan-900/30 text-blue-700 dark:text-blue-300 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-md sm:rounded-lg font-semibold border border-blue-200/50 dark:border-blue-700/50">
                       +{project.technologies.length - 3}
                     </span>
                   )}
                 </div>
 
-                {/* Action Button - Single */}
-                {project.liveUrl !== '#' && (
+                {/* Action Button - Enhanced */}
+                {project.routePath ? (
+                  <Link
+                    to={`/project/${project.routePath}`}
+                    className="block w-full bg-gradient-to-r from-blue-600 to-cyan-600 text-white text-center py-2.5 sm:py-3 md:py-3.5 px-4 sm:px-5 rounded-lg sm:rounded-xl text-sm sm:text-base font-semibold hover:from-blue-700 hover:to-cyan-700 transition-all duration-200 flex items-center justify-center space-x-2 shadow-md hover:shadow-lg hover:-translate-y-0.5"
+                  >
+                    <span>{language === 'pt-BR' ? 'Ver Detalhes' : 'View Details'}</span>
+                  </Link>
+                ) : project.liveUrl !== '#' ? (
                   <motion.a
                     href={project.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full bg-blue-600 text-white text-center py-2 px-3 sm:px-4 rounded-lg text-xs sm:text-sm font-medium hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center space-x-1 sm:space-x-2"
+                    className="block w-full bg-gradient-to-r from-blue-600 to-cyan-600 text-white text-center py-2.5 sm:py-3 md:py-3.5 px-4 sm:px-5 rounded-lg sm:rounded-xl text-sm sm:text-base font-semibold hover:from-blue-700 hover:to-cyan-700 transition-all duration-200 flex items-center justify-center space-x-2 shadow-md hover:shadow-lg"
                   >
-                    <ExternalLink size={12} className="sm:w-3.5 sm:h-3.5" />
+                    <ExternalLink size={16} className="sm:w-4 sm:h-4" />
                     <span>{t.viewProject}</span>
                   </motion.a>
-                )}
+                ) : null}
               </div>
             </motion.div>
           ))}
@@ -361,5 +424,5 @@ const Projects = ({ language }) => {
   );
 };
 
-export default Projects;
+export default memo(Projects);
 

@@ -94,7 +94,7 @@ const Hero = ({ language }) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-lg text-foreground/80 mb-4"
+              className="text-base sm:text-lg text-foreground/80 mb-3 sm:mb-4"
             >
               {t.greeting}
             </motion.p>
@@ -103,7 +103,7 @@ const Hero = ({ language }) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="text-4xl md:text-6xl font-bold mb-4"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4"
             >
               <span className="text-gradient">{t.name}</span>
             </motion.h1>
@@ -112,7 +112,7 @@ const Hero = ({ language }) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
-              className="text-2xl md:text-3xl font-semibold text-foreground/90 mb-6"
+              className="text-xl sm:text-2xl md:text-3xl font-semibold text-foreground/90 mb-4 sm:mb-6"
             >
               {t.title}
             </motion.h2>
@@ -121,7 +121,7 @@ const Hero = ({ language }) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 }}
-              className="text-lg text-foreground/70 mb-2"
+              className="text-base sm:text-lg text-foreground/70 mb-2"
             >
               {t.subtitle}
             </motion.p>
@@ -130,7 +130,7 @@ const Hero = ({ language }) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1 }}
-              className="text-foreground/60 mb-8 max-w-lg"
+              className="text-sm sm:text-base text-foreground/60 mb-6 sm:mb-8 max-w-lg mx-auto lg:mx-0"
             >
               {t.description}
             </motion.p>
@@ -139,7 +139,7 @@ const Hero = ({ language }) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.2 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-12"
+              className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start mb-8 sm:mb-12"
             >
               <motion.a
                 href="/Curriculo_Willy_Henrique.pdf"
@@ -215,7 +215,7 @@ const Hero = ({ language }) => {
               whileHover={{ scale: 1.05 }}
               className="relative"
             >
-              <div className="w-80 h-80 rounded-full overflow-hidden border-4 border-primary/20 shadow-2xl">
+              <div className="w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-primary/20 shadow-2xl">
                 <img
                   src={fotoPerfil}
                   alt="Willy Henrique"

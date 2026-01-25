@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Navigation = ({ language, setLanguage }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+  const isProjectDetail = location.pathname.startsWith('/project');
 
   const translations = {
     'pt-BR': {
@@ -75,25 +78,38 @@ const Navigation = ({ language, setLanguage }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="text-xl font-bold text-gradient"
-          >
-            Willy Henrique
-          </motion.div>
+          <Link to="/">
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="text-xl font-bold text-gradient cursor-pointer"
+            >
+              Willy Henrique
+            </motion.div>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
-              <motion.a
-                key={item.href}
-                href={item.href}
-                onClick={(e) => handleSmoothScroll(e, item.href)}
-                whileHover={{ scale: 1.05 }}
-                className="text-foreground/80 hover:text-primary transition-colors duration-200 cursor-pointer"
-              >
-                {item.label}
-              </motion.a>
+              isProjectDetail ? (
+                <Link key={item.href} to={`/${item.href}`}>
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    className="text-foreground/80 hover:text-primary transition-colors duration-200 cursor-pointer"
+                  >
+                    {item.label}
+                  </motion.div>
+                </Link>
+              ) : (
+                <motion.a
+                  key={item.href}
+                  href={item.href}
+                  onClick={(e) => handleSmoothScroll(e, item.href)}
+                  whileHover={{ scale: 1.05 }}
+                  className="text-foreground/80 hover:text-primary transition-colors duration-200 cursor-pointer"
+                >
+                  {item.label}
+                </motion.a>
+              )
             ))}
             
             {/* Language Toggle */}
@@ -147,20 +163,33 @@ const Navigation = ({ language, setLanguage }) => {
           >
             <div className="px-4 py-4 space-y-4">
               {navItems.map((item, index) => (
-                <motion.a
-                  key={item.href}
-                  href={item.href}
-                  onClick={(e) => {
-                    handleSmoothScroll(e, item.href);
-                    setIsOpen(false);
-                  }}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  className="block text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors duration-200 py-2 text-base cursor-pointer"
-                >
-                  {item.label}
-                </motion.a>
+                isProjectDetail ? (
+                  <Link key={item.href} to={`/${item.href}`} onClick={() => setIsOpen(false)}>
+                    <motion.div
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      className="block text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors duration-200 py-2 text-base cursor-pointer"
+                    >
+                      {item.label}
+                    </motion.div>
+                  </Link>
+                ) : (
+                  <motion.a
+                    key={item.href}
+                    href={item.href}
+                    onClick={(e) => {
+                      handleSmoothScroll(e, item.href);
+                      setIsOpen(false);
+                    }}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    className="block text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors duration-200 py-2 text-base cursor-pointer"
+                  >
+                    {item.label}
+                  </motion.a>
+                )
               ))}
             </div>
           </motion.div>
