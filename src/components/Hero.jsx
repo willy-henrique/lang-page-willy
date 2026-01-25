@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { ChevronDown, Download, Mail } from 'lucide-react';
-import fotoPerfil from '../assets/foto-perfil.png';
+import fotoPerfil from '../assets/foto-perfil.jpg';
 
 const Hero = ({ language }) => {
   const translations = {
