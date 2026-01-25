@@ -7,7 +7,7 @@ import projetoLeogasImg from '../assets/projeto-leogas.svg';
 import projetoLeonicoImg from '../assets/leonico-barbearia.png';
 import projetoAquiresolveImg from '../assets/aquiresolve2.png';
 import projetoEssencialleImg from '../assets/Essenciallelogo.png';
-import projetoWilltechBiImg from '../assets/willtech-bi-dashboard.png';
+import projetoWilltechBiImg from '../assets/willtech-bi-dashboard.jpg';
 
 const Projects = ({ language }) => {
   const translations = {
