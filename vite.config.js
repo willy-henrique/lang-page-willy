@@ -60,7 +60,8 @@ export default defineConfig({
       'react',
       'react-dom',
       'framer-motion',
-      'lucide-react'
+      'lucide-react',
+      'react-intersection-observer'
     ],
     exclude: []
   }

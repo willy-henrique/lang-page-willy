@@ -1,6 +1,5 @@
-import { clsx } from "clsx";
-import { twMerge } from "tailwind-merge"
-
-export function cn(...inputs) {
-  return twMerge(clsx(inputs));
-}
+/**
+ * Re-export cn from utils for consistent import path.
+ * Use: import { cn } from '@/lib/utils'
+ */
+export { cn } from '../utils/cn';
