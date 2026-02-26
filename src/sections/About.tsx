@@ -28,7 +28,7 @@ export function About() {
               Sobre <span className="text-gradient">Mim</span>
             </h2>
             <p className="text-lg text-slate-400 mb-8 leading-relaxed">
-              Sou Willy Henrique, estudante de Engenharia de Software no 7º período. Com experiência no desenvolvimento de sistemas de alta performance, crio soluções inteligentes e escaláveis para os desafios de negócio modernos.
+              Sou Willy Henrique, estudante de Engenharia de Software no 7º período. Com experiência no desenvolvimento de sistemas de alta performance, crio soluções inteligentes e escaláveis para os desafios de negócio modernos. Tenho vivência em deploy e infraestrutura front-end: Vercel, pipelines de CI/CD e publicação de aplicações em produção.
             </p>
 
             <div className="space-y-4 mb-10">
@@ -76,10 +76,9 @@ export function About() {
           >
             <div className="aspect-square rounded-3xl overflow-hidden glass p-2">
               <img
-                src="https://picsum.photos/seed/willy/800/800"
+                src="/fotoperfil.jpg"
                 alt="Willy Henrique"
                 className="w-full h-full object-cover rounded-2xl grayscale hover:grayscale-0 transition-all duration-500"
-                referrerPolicy="no-referrer"
               />
             </div>
             {/* Decorative elements */}

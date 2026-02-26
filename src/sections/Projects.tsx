@@ -65,12 +65,26 @@ export function Projects() {
                 </p>
                 
                 <div className="flex items-center gap-4">
-                  <button className="flex items-center gap-2 text-sm font-medium text-white hover:text-brand-accent transition-colors">
-                    <ExternalLink size={16} /> Ver Projeto
-                  </button>
-                  <button className="text-slate-500 hover:text-white transition-colors">
-                    <Github size={18} />
-                  </button>
+                  {project.link && (
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 text-sm font-medium text-white hover:text-brand-accent transition-colors"
+                    >
+                      <ExternalLink size={16} /> Ver Projeto
+                    </a>
+                  )}
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-slate-500 hover:text-white transition-colors"
+                    >
+                      <Github size={18} />
+                    </a>
+                  )}
                 </div>
               </div>
             </motion.div>
