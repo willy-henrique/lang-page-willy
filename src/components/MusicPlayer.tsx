@@ -149,7 +149,7 @@ const MusicPlayer = memo(() => {
         audioStore.beat = Math.max(0, audioStore.beat - 0.055)
       }
 
-      // Simula bass/energy com ondas de diferentes frequências
+      // Simula bass/energy com ondas de diferentes frequências (Otimizado)
       audioStore.bass   = 0.45 + Math.sin(t * (bpm / 15)) * 0.35
       audioStore.energy = audioStore.bass
 
@@ -162,15 +162,18 @@ const MusicPlayer = memo(() => {
       // ── Progress bar ───────────────────────────────────────────────
       const audio = audioRef.current
       if (audio && audio.duration) {
-        const pct = (audio.currentTime / audio.duration) * 100
-        if (fillRef.current)  fillRef.current.style.width = `${pct}%`
-        if (thumbRef.current) thumbRef.current.style.left = `${pct}%`
-        if (timeRef.current)  timeRef.current.textContent = fmt(audio.currentTime)
+        // Reduz chamadas no DOM limitando as atualizações (60fps -> ~30fps visual update)
+        if (Math.floor(now) % 2 === 0) {
+          const pct = (audio.currentTime / audio.duration) * 100
+          if (fillRef.current)  fillRef.current.style.width = `${pct}%`
+          if (thumbRef.current) thumbRef.current.style.left = `${pct}%`
+          if (timeRef.current)  timeRef.current.textContent = fmt(audio.currentTime)
+        }
       }
 
       // ── Visualizer bars (animated fake EQ) ────────────────────────
       const canvas = vizRef.current
-      if (canvas) {
+      if (canvas && Math.floor(now) % 2 === 0) { // Otimiza redraw do canvas (roda a 30fps no visual)
         const ctx = canvas.getContext('2d')
         if (ctx) {
           ctx.clearRect(0, 0, canvas.width, canvas.height)
@@ -246,7 +249,7 @@ const MusicPlayer = memo(() => {
   const track = TRACKS[trackIdx]
 
   return (
-    <div className="fixed z-[200] select-none right-4 bottom-4 md:bottom-auto md:right-6 md:top-20">
+    <div className="fixed z-[200] select-none right-4 bottom-4 md:bottom-auto md:top-20 md:right-6">
       <AnimatePresence mode="wait">
         {/* ══════════════ EXPANDED PLAYER ══════════════ */}
         {expanded ? (
@@ -256,7 +259,7 @@ const MusicPlayer = memo(() => {
             animate={{ opacity: 1, y: 0,  scale: 1    }}
             exit={{   opacity: 0, y: 20,  scale: 0.92 }}
             transition={{ type: 'spring', stiffness: 320, damping: 26 }}
-            className="w-80 rounded-2xl overflow-hidden"
+            className="w-[calc(100vw-32px)] sm:w-80 rounded-2xl overflow-hidden origin-bottom md:origin-top-right"
             style={{
               background:     'rgba(7,9,18,0.93)',
               backdropFilter: 'blur(24px)',
@@ -269,7 +272,7 @@ const MusicPlayer = memo(() => {
             {/* Visualizer */}
             <div className="px-4 pt-4">
               <canvas ref={vizRef} width={272} height={36} className="w-full rounded-lg"
-                style={{ background: 'rgba(255,255,255,0.02)' }} />
+                style={{ background: 'rgba(255,255,255,0.02)', touchAction: 'none' }} />
             </div>
 
             {/* Track info */}
