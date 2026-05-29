@@ -24,21 +24,20 @@ export default function Hero() {
   return (
     <section
       id="inicio"
-      className="relative min-h-screen flex items-center overflow-hidden"
+      className="relative min-h-[100dvh] flex flex-col justify-center overflow-hidden"
     >
-      {/* 3D Scene Background */}
+      {/* 3D Scene Background - Adjusted for mobile */}
       <Scene3D mousePosition={mousePosition} />
 
       {/* Gradient overlays for text readability */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#0b0f19] via-[#0b0f19]/80 to-transparent z-[1] pointer-events-none" />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0b0f19] via-transparent to-[#0b0f19]/40 z-[1] pointer-events-none" />
-
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0b0f19] via-transparent to-[#0b0f19] z-[1] pointer-events-none md:bg-gradient-to-r md:from-[#0b0f19] md:via-[#0b0f19]/80 md:to-transparent" />
+      
       {/* Content */}
       <motion.div
         variants={container}
         initial="hidden"
         animate="show"
-        className="relative z-10 max-w-7xl mx-auto px-6 w-full py-32"
+        className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-20 pb-24 md:py-32"
       >
         <div className="max-w-2xl mx-auto text-center lg:mx-0 lg:text-left">
           {/* Availability badge */}
@@ -53,7 +52,7 @@ export default function Hero() {
           {/* Main heading */}
           <motion.h1
             variants={item}
-            className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-4"
+            className="text-[2.5rem] leading-[1.1] sm:text-6xl lg:text-7xl font-bold tracking-tight mb-4"
           >
             <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
               Willy Henrique
@@ -73,7 +72,7 @@ export default function Hero() {
           {/* Description */}
           <motion.p
             variants={item}
-            className="text-gray-400 text-base sm:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0 mb-8"
+            className="text-gray-400 text-sm sm:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0 mb-8"
           >
             Transformando ideias em experiências digitais extraordinárias.
             Especializado em criar soluções web modernas com foco em performance,
@@ -83,20 +82,20 @@ export default function Hero() {
           {/* CTA Buttons */}
           <motion.div
             variants={item}
-            className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start mb-10"
+            className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 justify-center lg:justify-start mb-8 md:mb-10"
           >
             <a
               href="/Curriculo_Willy_Henrique.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center gap-2.5 px-6 py-3.5 rounded-xl border border-white/[0.12] text-white font-medium text-sm hover:bg-white/[0.04] hover:border-white/[0.2] transition-all duration-300"
+              className="group flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl border border-white/[0.12] text-white font-medium text-sm hover:bg-white/[0.04] hover:border-white/[0.2] transition-all duration-300"
             >
               <Download className="w-4 h-4 group-hover:-translate-y-0.5 transition-transform" />
               Download CV
             </a>
             <a
               href="#contato"
-              className="group flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 text-white font-medium text-sm hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] hover:scale-105 transition-all duration-300"
+              className="group flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 text-white font-medium text-sm hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] hover:scale-105 transition-all duration-300"
             >
               Entre em Contato
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

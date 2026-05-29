@@ -10,6 +10,12 @@ import { audioStore } from '../stores/audioStore'
 // ─── Tracks ──────────────────────────────────────────────────────────────────
 const TRACKS = [
   {
+    title:  'Noite Goiana',
+    artist: 'Vinicius Cavalcante',
+    file:   'Noite Goiana - Vinicius cavalcante (youtube).mp3',
+    bpm:    100,
+  },
+  {
     title:  'Bigodin Finin',
     artist: 'DJ Tubas, MC Bruna Alves e MC Pânico',
     file:   'BIGODIN FININ - DJ TUBAS, MC BRUNA ALVES e MC PÂNICO ( Official Lyric Vídeo ) - DJ Tubas (youtube).mp3',
@@ -21,12 +27,6 @@ const TRACKS = [
     file:   'NA RELÍQUIA DO 2T - MC Vine 7, MC Tuto, MC FR da Norte, MC Joãozinho VT, MC Dkzin (DJ Gu) - Sonar Produtora (youtube).mp3',
     bpm:    130,
   },
-  {
-    title:  'Noite Goiana',
-    artist: 'Vinicius Cavalcante',
-    file:   'Noite Goiana - Vinicius cavalcante (youtube).mp3',
-    bpm:    100,
-  },
 ]
 
 const fmt = (s: number) =>
@@ -36,7 +36,7 @@ const fmt = (s: number) =>
 const MusicPlayer = memo(() => {
   const [trackIdx, setTrackIdx] = useState(0)
   const [playing,  setPlaying]  = useState(false)
-  const [expanded, setExpanded] = useState(true)
+  const [expanded, setExpanded] = useState(false) // <--- Começa contraído (formato pílula)
   const [liked,    setLiked]    = useState(false)
   const [shuffle,  setShuffle]  = useState(false)
   const [repeat,   setRepeat]   = useState(false)

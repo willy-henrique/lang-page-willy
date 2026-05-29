@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState } from 'react'
+import { lazy, Suspense, useState, useEffect } from 'react'
 import { Toaster } from 'sonner'
 import CustomCursor from './components/CustomCursor'
 import Navbar from './components/Navbar'
@@ -23,6 +23,12 @@ const SectionLoader = () => (
 
 export default function App() {
   const [introComplete, setIntroComplete] = useState(false)
+
+  // Force scroll to top on mount
+  useEffect(() => {
+    window.history.scrollRestoration = 'manual'
+    window.scrollTo(0, 0)
+  }, [])
 
   return (
     <div className="relative min-h-screen bg-[#0b0f19] text-white overflow-x-hidden">

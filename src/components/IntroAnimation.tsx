@@ -15,6 +15,9 @@ export default function IntroAnimation({ onComplete }: IntroAnimationProps) {
   }, [onComplete])
 
   useEffect(() => {
+    // Scroll to top immediately when animation starts
+    window.scrollTo(0, 0)
+    
     const exitTimer = setTimeout(() => setVisible(false), 3600)
     const doneTimer = setTimeout(handleComplete, 4400)
     return () => {
