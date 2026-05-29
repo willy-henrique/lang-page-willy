@@ -19,13 +19,17 @@ export default defineConfig({
       output: {
         manualChunks: {
           'vendor-react': ['react', 'react-dom'],
-          'vendor-three': ['three', '@react-three/fiber', '@react-three/drei'],
+          'vendor-three': ['three'],
+          'vendor-r3f': ['@react-three/fiber', '@react-three/drei'],
           'vendor-framer': ['framer-motion'],
           'vendor-ui': ['lucide-react', 'sonner'],
+          'vendor-forms': ['react-hook-form', '@hookform/resolvers', 'zod'],
         },
       },
     },
-    chunkSizeWarningLimit: 600,
+    chunkSizeWarningLimit: 700,
+    cssCodeSplit: true,
+    sourcemap: false,
   },
   optimizeDeps: {
     include: [

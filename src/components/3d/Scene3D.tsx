@@ -1,107 +1,84 @@
-import { Canvas } from '@react-three/fiber';
-import { Environment, Float, AdaptiveDpr } from '@react-three/drei';
-import { Suspense, useState, useEffect } from 'react';
-import Robot from './Robot';
-import ParticleField from './ParticleField';
-import FloatingGeometries from './FloatingGeometries';
+import { lazy, Suspense, useRef, useCallback, useMemo, memo, useEffect, useState } from 'react'
+import { Canvas } from '@react-three/fiber'
+import { Environment } from '@react-three/drei'
 
-interface SceneProps {
-  showRobot?: boolean;
-  robotScale?: number;
-  robotPosition?: [number, number, number];
-  className?: string;
-  particleCount?: number;
-  interactive?: boolean;
+const Robot = lazy(() => import('./Robot'))
+const ParticleField = lazy(() => import('./ParticleField'))
+
+interface Scene3DProps {
+  mousePosition: { x: number; y: number }
 }
 
-export default function Scene3D({
-  showRobot = true,
-  robotScale = 1,
-  robotPosition = [0, 0, 0],
-  className = '',
-  particleCount = 1500,
-}: SceneProps) {
-  // Ajuste sênior de responsividade para dispositivos móveis
-  const [screenSize, setScreenSize] = useState({
-    isMobile: false,
-    isTablet: false,
-    isLarge: false,
-  });
+const Scene3D = memo(({ mousePosition }: Scene3DProps) => {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
-    const handleResize = () => {
-      const width = window.innerWidth;
-      setScreenSize({
-        isMobile: width < 768,
-        isTablet: width >= 768 && width < 1024,
-        isLarge: width >= 1024,
-      });
-    };
+    const check = () => setIsMobile(window.innerWidth < 768)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
 
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  const cameraConfig = useMemo(() => ({
+    position: [0, 0, 8] as [number, number, number],
+    fov: isMobile ? 52 : 48,
+  }), [isMobile])
 
-  // Escala dinâmica calculada para se ajustar de forma ideal
-  const responsiveScale = screenSize.isMobile
-    ? robotScale * 0.65 // Reduz o tamanho no celular
-    : screenSize.isTablet
-    ? robotScale * 0.85
-    : robotScale;
+  const robotScale = isMobile ? 0.62 : 1.32
+  const robotPosition: [number, number, number] = isMobile
+    ? [0, -0.5, 0]
+    : [3.0, -0.5, 0]
 
-  // Posição dinâmica para centralizar no mobile e ficar ao lado no desktop
-  const responsivePosition: [number, number, number] = screenSize.isMobile
-    ? [0, -0.6, 0] // Centralizado no mobile
-    : screenSize.isTablet
-    ? [1.5, -0.5, 0] // Deslocado de forma moderada no tablet
-    : robotPosition; // Original no desktop grande
+  const dpr = isMobile ? [1, 1.5] as [number, number] : [1, 2] as [number, number]
 
-  // Otimização sênior: reduzir contagem de partículas em telas menores
-  const responsiveParticleCount = screenSize.isMobile
-    ? Math.min(particleCount, 500)
-    : screenSize.isTablet
-    ? Math.min(particleCount, 1000)
-    : particleCount;
+  const handleCreated = useCallback((state: any) => {
+    state.gl.setClearColor('#0b0f19', 0)
+  }, [])
 
   return (
-    <div className={`w-full h-full ${className}`}>
+    <div
+      ref={containerRef}
+      className="absolute inset-0 w-full h-full"
+      style={{ touchAction: 'pan-y' }}
+    >
       <Canvas
-        camera={{ position: [0, 0, 8], fov: 50 }}
-        dpr={[1, screenSize.isMobile ? 1.2 : 1.5]} // Limita DPR no mobile para performance fluida 60 FPS
+        camera={cameraConfig}
+        dpr={dpr}
         gl={{
-          antialias: !screenSize.isMobile, // Desativa antialias no celular para máxima fluidez
+          antialias: !isMobile,
           alpha: true,
           powerPreference: 'high-performance',
+          stencil: false,
+          depth: true,
         }}
-        style={{ background: 'transparent' }}
+        onCreated={handleCreated}
+        performance={{ min: 0.5 }}
       >
         <Suspense fallback={null}>
-          <AdaptiveDpr pixelated /> {/* Rebaixa DPR dinamicamente durante movimentação se necessário */}
+          {/* Lighting — tuned for white robot on dark background */}
+          <ambientLight intensity={0.22} />
+          <directionalLight position={[4, 8, 5]} intensity={1.1} color="#e8eef5" castShadow />
+          <directionalLight position={[-4, 4, 3]} intensity={0.55} color="#c7d8f0" />
+          <directionalLight position={[0, -3, 4]} intensity={0.18} color="#3b82f6" />
+          <pointLight position={[0, 3, 5]} intensity={0.6} color="#06b6d4" distance={12} />
+          <pointLight position={[-5, 2, 2]} intensity={0.3} color="#8b5cf6" distance={10} />
 
-          {/* Lighting */}
-          <ambientLight intensity={0.15} />
-          <directionalLight position={[5, 5, 5]} intensity={0.8} color="#ffffff" />
-          <directionalLight position={[-5, 3, -5]} intensity={0.3} color="#8b5cf6" />
-          <pointLight position={[0, 5, 0]} intensity={0.5} color="#3b82f6" />
-
-          {/* Environment for reflections */}
-          <Environment preset="night" />
-
-          {/* Particles */}
-          <ParticleField count={responsiveParticleCount} />
-
-          {/* Floating geometric shapes (apenas em telas maiores para evitar clutter no mobile) */}
-          {!screenSize.isMobile && <FloatingGeometries />}
+          <Environment preset="city" />
 
           {/* Robot */}
-          {showRobot && (
-            <Float speed={screenSize.isMobile ? 1.0 : 1.5} rotationIntensity={0.1} floatIntensity={0.3}>
-              <Robot scale={responsiveScale} position={responsivePosition} />
-            </Float>
-          )}
+          <group position={robotPosition} scale={[robotScale, robotScale, robotScale]}>
+            <Robot mousePosition={mousePosition} />
+          </group>
+
+          {/* Particles */}
+          <ParticleField count={isMobile ? 600 : 1200} />
         </Suspense>
       </Canvas>
     </div>
-  );
-}
+  )
+})
+
+Scene3D.displayName = 'Scene3D'
+
+export default Scene3D

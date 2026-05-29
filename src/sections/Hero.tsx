@@ -1,139 +1,138 @@
 import { motion } from 'framer-motion';
+import { Download, ArrowRight, ChevronDown } from 'lucide-react';
 import Scene3D from '../components/3d/Scene3D';
-import { ChevronDown, Download, Mail } from 'lucide-react';
+import { useMousePosition } from '../hooks/useMousePosition';
+
+const techBadges = ['React', 'TypeScript', 'Node.js', 'Firebase', 'Python'];
+
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.12, delayChildren: 0.3 },
+  },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 30 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
+};
 
 export default function Hero() {
+  const mousePosition = useMousePosition();
+
   return (
-    <section id="inicio" className="relative min-h-screen flex items-center overflow-hidden">
-      {/* 3D Background - full screen com responsividade sênior para layout HTML */}
-      <div className="absolute inset-0 z-0">
-        <Scene3D
-          showRobot={true}
-          robotScale={1.4}
-          robotPosition={[3.5, -0.5, 0]}
-          particleCount={2000}
-        />
-      </div>
+    <section
+      id="inicio"
+      className="relative min-h-screen flex items-center overflow-hidden"
+    >
+      {/* 3D Scene Background */}
+      <Scene3D mousePosition={mousePosition} />
 
-      {/* Gradient overlays - ajustados para melhorar a legibilidade no mobile quando o robô centraliza */}
-      <div className="absolute inset-0 z-[1] bg-gradient-to-b md:bg-gradient-to-r from-[#0b0f19] via-[#0b0f19]/80 md:via-[#0b0f19]/70 to-[#0b0f19]/40 md:to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 h-40 z-[1] bg-gradient-to-t from-[#0b0f19] to-transparent" />
+      {/* Gradient overlays for text readability */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0b0f19] via-[#0b0f19]/80 to-transparent z-[1] pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#0b0f19] via-transparent to-[#0b0f19]/40 z-[1] pointer-events-none" />
 
-      {/* Content - alinhamento responsivo */}
-      <div className="relative z-[2] max-w-7xl mx-auto px-6 py-24 md:py-0 w-full flex flex-col justify-center min-h-screen">
-        <div className="max-w-2xl text-center md:text-left flex flex-col items-center md:items-start">
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="mb-6"
-          >
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 text-sm font-medium backdrop-blur-sm">
-              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-              Disponível para projetos
+      {/* Content */}
+      <motion.div
+        variants={container}
+        initial="hidden"
+        animate="show"
+        className="relative z-10 max-w-7xl mx-auto px-6 w-full py-32"
+      >
+        <div className="max-w-2xl mx-auto text-center lg:mx-0 lg:text-left">
+          {/* Availability badge */}
+          <motion.div variants={item} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.04] border border-white/[0.08] backdrop-blur-sm mb-8">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500" />
             </span>
+            <span className="text-sm text-gray-300 font-medium">Disponível para projetos</span>
           </motion.div>
 
-          {/* Name */}
+          {/* Main heading */}
           <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-none md:leading-tight"
+            variants={item}
+            className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-4"
           >
-            <span className="text-white">Willy</span>
-            <br />
-            <span className="bg-gradient-to-r from-blue-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
-              Henrique
+            <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+              Willy Henrique
             </span>
           </motion.h1>
 
-          {/* Role */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="mb-4"
-          >
-            <h2 className="text-lg sm:text-xl md:text-2xl text-gray-300 font-light">
+          {/* Subtitle */}
+          <motion.div variants={item} className="mb-6 space-y-1">
+            <p className="text-xl sm:text-2xl text-gray-300 font-medium">
               Engenheiro de Software
-            </h2>
-            <div className="flex items-center justify-center md:justify-start gap-2 mt-2 text-gray-500">
-              <div className="h-px w-12 bg-gradient-to-r from-blue-500 to-transparent" />
-              <span className="text-xs sm:text-sm tracking-widest uppercase">Full Stack Developer</span>
-            </div>
+            </p>
+            <p className="text-lg sm:text-xl text-gray-500 font-medium">
+              Full Stack Developer
+            </p>
           </motion.div>
 
           {/* Description */}
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            className="text-gray-400 text-base sm:text-lg mb-8 leading-relaxed max-w-lg"
+            variants={item}
+            className="text-gray-400 text-base sm:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0 mb-8"
           >
             Transformando ideias em experiências digitais extraordinárias.
-            Especialista em React, TypeScript e soluções criativas.
+            Especializado em criar soluções web modernas com foco em performance,
+            design e experiência do usuário.
           </motion.p>
 
-          {/* CTAs */}
+          {/* CTA Buttons */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1 }}
-            className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
+            variants={item}
+            className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start mb-10"
           >
             <a
               href="/Curriculo_Willy_Henrique.pdf"
-              download
-              className="group relative inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-500 rounded-xl text-white font-semibold overflow-hidden transition-all hover:shadow-[0_0_40px_rgba(59,130,246,0.4)] hover:scale-105"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center gap-2.5 px-6 py-3.5 rounded-xl border border-white/[0.12] text-white font-medium text-sm hover:bg-white/[0.04] hover:border-white/[0.2] transition-all duration-300"
             >
-              <span className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity" />
-              <Download className="w-5 h-5 relative z-10" />
-              <span className="relative z-10">Baixar CV</span>
+              <Download className="w-4 h-4 group-hover:-translate-y-0.5 transition-transform" />
+              Download CV
             </a>
             <a
               href="#contato"
-              className="group inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/10 rounded-xl text-white font-semibold hover:bg-white/5 hover:border-blue-500/50 transition-all hover:scale-105 backdrop-blur-sm"
+              className="group flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 text-white font-medium text-sm hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] hover:scale-105 transition-all duration-300"
             >
-              <Mail className="w-5 h-5 group-hover:text-blue-400 transition-colors" />
-              <span>Entre em Contato</span>
+              Entre em Contato
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </a>
           </motion.div>
 
-          {/* Tech stack mini */}
+          {/* Tech Badges */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 1.5 }}
-            className="mt-12 flex flex-wrap justify-center md:justify-start items-center gap-4 sm:gap-6 text-gray-600"
+            variants={item}
+            className="flex flex-wrap items-center gap-2.5 justify-center lg:justify-start"
           >
-            <span className="text-xs tracking-widest uppercase">Stack</span>
-            <div className="h-px w-8 bg-gray-700 hidden sm:block" />
-            <div className="flex flex-wrap justify-center gap-3">
-              {['React', 'TypeScript', 'Node.js', 'Firebase', 'Python'].map((tech) => (
-                <span key={tech} className="text-xs sm:text-sm text-gray-500 hover:text-blue-400 transition-colors cursor-default">
-                  {tech}
-                </span>
-              ))}
-            </div>
+            {techBadges.map((tech) => (
+              <span
+                key={tech}
+                className="px-3.5 py-1.5 rounded-lg bg-white/[0.04] border border-white/[0.08] text-xs font-medium text-gray-400 shadow-[0_0_15px_rgba(59,130,246,0.04)] hover:border-blue-500/20 hover:text-gray-300 transition-all"
+              >
+                {tech}
+              </span>
+            ))}
           </motion.div>
         </div>
-      </div>
+      </motion.div>
 
-      {/* Scroll indicator */}
+      {/* Scroll Indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2, duration: 1 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-[2] flex flex-col items-center gap-2"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
       >
         <span className="text-xs text-gray-500 tracking-widest uppercase">Scroll</span>
         <motion.div
           animate={{ y: [0, 8, 0] }}
-          transition={{ repeat: Infinity, duration: 1.5 }}
+          transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
         >
-          <ChevronDown className="w-5 h-5 text-blue-400" />
+          <ChevronDown className="w-5 h-5 text-gray-500" />
         </motion.div>
       </motion.div>
     </section>

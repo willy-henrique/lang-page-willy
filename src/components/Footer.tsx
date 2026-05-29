@@ -1,104 +1,113 @@
-import { Github, Linkedin, Instagram, ArrowUp } from 'lucide-react';
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { Github, Linkedin, Instagram, ArrowUp, Heart } from 'lucide-react'
 
-const links = [
-  { href: '#inicio', label: 'Início' },
-  { href: '#sobre', label: 'Sobre' },
-  { href: '#projetos', label: 'Projetos' },
-  { href: '#habilidades', label: 'Skills' },
-  { href: '#contato', label: 'Contato' },
-];
+const NAV_LINKS = [
+  { label: 'Início', href: '#hero' },
+  { label: 'Sobre', href: '#about' },
+  { label: 'Projetos', href: '#projects' },
+  { label: 'Skills', href: '#skills' },
+  { label: 'Contato', href: '#contact' },
+]
 
-const socials = [
-  { icon: Github, href: 'https://github.com/willyhenrique', label: 'GitHub' },
-  { icon: Linkedin, href: 'https://www.linkedin.com/in/willy-henrique/', label: 'LinkedIn' },
-  { icon: Instagram, href: 'https://www.instagram.com/willyhsf/', label: 'Instagram' },
-];
+const SOCIAL_LINKS = [
+  { icon: Github, href: 'https://github.com/willyhfranca', label: 'GitHub' },
+  { icon: Linkedin, href: 'https://linkedin.com/in/willyhfranca', label: 'LinkedIn' },
+  { icon: Instagram, href: 'https://www.instagram.com/eng.willyhenrique/', label: 'Instagram' },
+]
 
 export default function Footer() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault()
+    document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' })
+  }
 
   return (
-    <footer ref={ref} className="relative border-t border-white/[0.06]">
-      {/* Gradient line at top */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent" />
+    <footer className="relative border-t border-white/[0.05] bg-[#070a12]">
+      {/* Subtle top gradient line */}
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-500/30 to-transparent" />
 
-      <div className="max-w-7xl mx-auto px-6 py-16">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="grid md:grid-cols-3 gap-12 items-start"
-        >
-          {/* Brand */}
-          <div>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center font-bold text-white text-lg">
-                W
-              </div>
-              <span className="text-white font-bold text-lg">
-                Willy<span className="text-blue-400">.</span>dev
+      {/* Main content */}
+      <div className="mx-auto max-w-7xl px-5 py-16 lg:px-8">
+        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-3">
+          {/* Brand column */}
+          <div className="space-y-4">
+            <a href="#hero" onClick={(e) => handleNavClick(e, '#hero')} className="inline-block">
+              <span className="text-xl font-bold tracking-tight font-heading">
+                <span className="text-gradient">Willy</span>
+                <span className="text-gray-400">.dev</span>
               </span>
-            </div>
-            <p className="text-gray-500 text-sm leading-relaxed">
-              Engenheiro de Software apaixonado por criar experiências digitais incríveis.
+            </a>
+            <p className="max-w-xs text-sm leading-relaxed text-gray-500">
+              Desenvolvedor Full-Stack apaixonado por criar experiências digitais modernas, performáticas e com design premium.
             </p>
           </div>
 
-          {/* Links */}
-          <div className="flex flex-col items-start md:items-center">
-            <p className="text-sm text-gray-500 uppercase tracking-widest mb-4">Navegação</p>
-            <div className="flex flex-wrap gap-x-6 gap-y-2">
-              {links.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className="text-sm text-gray-400 hover:text-blue-400 transition-colors"
-                >
-                  {link.label}
-                </a>
+          {/* Navigation column */}
+          <div>
+            <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-gray-500">
+              Navegação
+            </h3>
+            <ul className="space-y-2.5">
+              {NAV_LINKS.map((link) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    onClick={(e) => handleNavClick(e, link.href)}
+                    className="text-sm text-gray-400 transition-colors hover:text-white"
+                  >
+                    {link.label}
+                  </a>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
 
-          {/* Social & scroll to top */}
-          <div className="flex flex-col items-start md:items-end">
-            <p className="text-sm text-gray-500 uppercase tracking-widest mb-4">Social</p>
-            <div className="flex gap-3 mb-6">
-              {socials.map((social) => (
+          {/* Social column */}
+          <div>
+            <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-gray-500">
+              Social
+            </h3>
+            <div className="flex gap-3">
+              {SOCIAL_LINKS.map(({ icon: Icon, href, label }) => (
                 <a
-                  key={social.label}
-                  href={social.href}
+                  key={label}
+                  href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-lg bg-white/[0.03] border border-white/[0.08] flex items-center justify-center text-gray-500 hover:text-white hover:border-white/20 transition-all"
+                  aria-label={label}
+                  className="grid h-10 w-10 place-items-center rounded-xl border border-white/[0.06] text-gray-500 transition-all hover:border-white/[0.12] hover:bg-white/[0.04] hover:text-white"
                 >
-                  <social.icon className="w-4 h-4" />
+                  <Icon size={16} />
                 </a>
               ))}
             </div>
-            <button
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="group inline-flex items-center gap-2 text-sm text-gray-500 hover:text-blue-400 transition-colors"
-            >
-              Voltar ao topo
-              <ArrowUp className="w-4 h-4 group-hover:-translate-y-1 transition-transform" />
-            </button>
+            <p className="mt-5 text-sm text-gray-500">
+              Disponível para novos projetos e colaborações.
+            </p>
           </div>
-        </motion.div>
+        </div>
+      </div>
 
-        {/* Bottom bar */}
-        <div className="mt-12 pt-8 border-t border-white/[0.04] flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-gray-600 text-sm">
-            © {new Date().getFullYear()} Willy Henrique. Todos os direitos reservados.
+      {/* Bottom bar */}
+      <div className="border-t border-white/[0.04]">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-5 lg:px-8">
+          <p className="flex items-center gap-1.5 text-xs text-gray-600">
+            © {new Date().getFullYear()} Willy.dev — Feito com
+            <Heart size={12} className="text-red-500/70" fill="currentColor" />
           </p>
-          <p className="text-gray-700 text-xs">
-            Feito com 💙 e muito ☕
-          </p>
+
+          <button
+            onClick={scrollToTop}
+            aria-label="Voltar ao topo"
+            className="group grid h-9 w-9 place-items-center rounded-lg border border-white/[0.06] text-gray-500 transition-all hover:border-white/[0.12] hover:bg-white/[0.04] hover:text-white"
+          >
+            <ArrowUp size={14} className="transition-transform group-hover:-translate-y-0.5" />
+          </button>
         </div>
       </div>
     </footer>
-  );
+  )
 }

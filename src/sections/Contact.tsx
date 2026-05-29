@@ -1,60 +1,109 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
+import {
+  Mail,
+  MapPin,
+  Github,
+  Linkedin,
+  Instagram,
+  Send,
+  Loader2,
+  ExternalLink,
+} from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import emailjs from '@emailjs/browser';
 import { toast } from 'sonner';
-import { Mail, MapPin, Github, Linkedin, Instagram, Send, ArrowUpRight, Loader2 } from 'lucide-react';
 
-const formSchema = z.object({
+const contactSchema = z.object({
   name: z.string().min(2, 'Nome deve ter pelo menos 2 caracteres'),
   email: z.string().email('Email inválido'),
   subject: z.string().min(3, 'Assunto deve ter pelo menos 3 caracteres'),
   message: z.string().min(10, 'Mensagem deve ter pelo menos 10 caracteres'),
 });
 
-type FormData = z.infer<typeof formSchema>;
+type ContactFormData = z.infer<typeof contactSchema>;
 
 const socialLinks = [
-  { icon: Github, href: 'https://github.com/willyhenrique', label: 'GitHub', color: 'hover:border-gray-400' },
-  { icon: Linkedin, href: 'https://www.linkedin.com/in/willy-henrique/', label: 'LinkedIn', color: 'hover:border-blue-500' },
-  { icon: Instagram, href: 'https://www.instagram.com/willyhsf/', label: 'Instagram', color: 'hover:border-pink-500' },
+  {
+    label: 'GitHub',
+    href: 'https://github.com/willyhfranca',
+    icon: <Github className="w-5 h-5" />,
+  },
+  {
+    label: 'LinkedIn',
+    href: 'https://linkedin.com/in/willyhfranca',
+    icon: <Linkedin className="w-5 h-5" />,
+  },
+  {
+    label: 'Instagram',
+    href: 'https://www.instagram.com/eng.willyhenrique/',
+    icon: <Instagram className="w-5 h-5" />,
+  },
 ];
+
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1, delayChildren: 0.2 },
+  },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 30 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
+};
 
 export default function Contact() {
   const ref = useRef(null);
-  const formRef = useRef<HTMLFormElement>(null);
-  const isInView = useInView(ref, { once: false, amount: 0.15 });
+  const isInView = useInView(ref, { once: true, margin: '-100px' });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>({
-    resolver: zodResolver(formSchema),
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<ContactFormData>({
+    resolver: zodResolver(contactSchema),
   });
 
-  const onSubmit = async (data: FormData) => {
-    if (!formRef.current) return;
+  const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
     try {
-      await emailjs.sendForm(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID || '',
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID || '',
-        formRef.current,
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY || ''
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        {
+          from_name: data.name,
+          from_email: data.email,
+          subject: data.subject,
+          message: data.message,
+        },
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
       );
-      toast.success('Mensagem enviada com sucesso! ✨');
+      toast.success('Mensagem enviada com sucesso!', {
+        description: 'Responderei o mais breve possível.',
+      });
       reset();
     } catch {
-      toast.error('Erro ao enviar mensagem. Tente novamente.');
+      toast.error('Erro ao enviar mensagem', {
+        description: 'Tente novamente ou entre em contato por email.',
+      });
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  const inputClasses =
+    'w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white placeholder:text-gray-600 text-sm focus:outline-none focus:border-blue-500/40 focus:bg-white/[0.05] transition-all duration-300';
+
   return (
     <section id="contato" className="relative py-32 overflow-hidden">
-      {/* Background effects */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-3xl" />
+      {/* Background glow */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-blue-500/[0.03] rounded-full blur-3xl" />
 
       <div ref={ref} className="max-w-7xl mx-auto px-6">
         {/* Section header */}
@@ -62,178 +111,203 @@ export default function Contact() {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="mb-20 text-center"
+          className="mb-16"
         >
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <div className="h-px w-12 bg-gradient-to-r from-transparent to-blue-500" />
-            <span className="text-blue-400 text-sm font-mono tracking-widest uppercase">04 — Contato</span>
-            <div className="h-px w-12 bg-gradient-to-l from-transparent to-blue-500" />
+          <div className="flex items-center gap-4 mb-4">
+            <div className="h-px w-12 bg-gradient-to-r from-blue-500 to-transparent" />
+            <span className="text-blue-400 text-sm font-mono tracking-widest uppercase">
+              04 — Contato
+            </span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Vamos <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">conversar?</span>
+          <h2 className="text-4xl md:text-5xl font-bold text-white">
+            Vamos{' '}
+            <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+              conversar?
+            </span>
           </h2>
-          <p className="text-gray-400 max-w-xl mx-auto">
-            Tem um projeto em mente ou quer trocar uma ideia? Ficarei feliz em te ouvir.
-          </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-5 gap-12">
-          {/* Contact info */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="lg:col-span-2 space-y-8"
-          >
-            {/* Info cards */}
-            <div className="space-y-4">
-              <div className="group p-5 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-blue-500/30 transition-all">
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center flex-shrink-0">
-                    <Mail className="w-5 h-5 text-blue-400" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-500 mb-1">Email</p>
-                    <a href="mailto:willyhsf@icloud.com" className="text-white hover:text-blue-400 transition-colors">
-                      willyhsf@icloud.com
-                    </a>
-                  </div>
-                </div>
+        {/* 2-column layout */}
+        <motion.div
+          variants={container}
+          initial="hidden"
+          animate={isInView ? 'show' : 'hidden'}
+          className="grid lg:grid-cols-2 gap-12"
+        >
+          {/* Left column: Contact info */}
+          <div className="space-y-6">
+            {/* Email card */}
+            <motion.div
+              variants={item}
+              className="group flex items-center gap-4 p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-blue-500/20 hover:bg-white/[0.04] transition-all duration-500"
+            >
+              <div className="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 shrink-0">
+                <Mail className="w-5 h-5" />
               </div>
+              <div>
+                <p className="text-sm text-gray-500 mb-0.5">Email</p>
+                <a
+                  href="mailto:willydev01@gmail.com"
+                  className="text-white font-medium text-sm hover:text-blue-400 transition-colors"
+                >
+                  willydev01@gmail.com
+                </a>
+              </div>
+            </motion.div>
 
-              <div className="group p-5 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-purple-500/30 transition-all">
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center flex-shrink-0">
-                    <MapPin className="w-5 h-5 text-purple-400" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-500 mb-1">Localização</p>
-                    <p className="text-white">Goiânia, GO — Brasil 🇧🇷</p>
-                  </div>
-                </div>
+            {/* Location card */}
+            <motion.div
+              variants={item}
+              className="group flex items-center gap-4 p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-blue-500/20 hover:bg-white/[0.04] transition-all duration-500"
+            >
+              <div className="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 shrink-0">
+                <MapPin className="w-5 h-5" />
               </div>
-            </div>
+              <div>
+                <p className="text-sm text-gray-500 mb-0.5">Localização</p>
+                <p className="text-white font-medium text-sm">Goiânia, GO</p>
+              </div>
+            </motion.div>
 
             {/* Social links */}
-            <div>
-              <p className="text-sm text-gray-500 uppercase tracking-widest mb-4">Redes sociais</p>
-              <div className="flex gap-3">
-                {socialLinks.map((social) => (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`group/social w-12 h-12 rounded-xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center transition-all hover:bg-white/[0.06] ${social.color}`}
-                  >
-                    <social.icon className="w-5 h-5 text-gray-400 group-hover/social:text-white transition-colors" />
-                  </a>
-                ))}
-              </div>
-            </div>
+            <motion.div variants={item} className="flex gap-3">
+              {socialLinks.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-12 h-12 rounded-xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center text-gray-400 hover:text-white hover:border-blue-500/30 hover:bg-white/[0.06] transition-all duration-300"
+                  aria-label={social.label}
+                >
+                  {social.icon}
+                </a>
+              ))}
+            </motion.div>
 
-            {/* CTA */}
-            <div className="p-6 rounded-2xl bg-gradient-to-br from-blue-500/10 to-purple-500/10 border border-white/[0.06]">
-              <p className="text-white font-semibold mb-2">Prefere um bate-papo?</p>
-              <p className="text-gray-400 text-sm mb-4">
-                Me chame nas redes sociais para conversarmos sobre seu projeto.
-              </p>
-              <a
-                href="https://www.linkedin.com/in/willy-henrique/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-blue-400 text-sm font-medium hover:text-blue-300 transition-colors"
-              >
-                Conectar no LinkedIn <ArrowUpRight className="w-4 h-4" />
-              </a>
-            </div>
-          </motion.div>
-
-          {/* Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="lg:col-span-3"
-          >
-            <form
-              ref={formRef}
-              onSubmit={handleSubmit(onSubmit)}
-              className="p-8 rounded-2xl bg-white/[0.02] border border-white/[0.06] space-y-6"
+            {/* LinkedIn CTA card */}
+            <motion.a
+              variants={item}
+              href="https://linkedin.com/in/willyhfranca"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group block p-6 rounded-2xl bg-gradient-to-br from-blue-500/[0.08] to-purple-500/[0.05] border border-blue-500/[0.15] hover:border-blue-500/30 transition-all duration-500"
             >
-              <div className="grid sm:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm text-gray-400 mb-2 font-medium">Nome</label>
-                  <input
-                    {...register('name')}
-                    type="text"
-                    placeholder="Seu nome"
-                    className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white placeholder:text-gray-600 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/20 transition-all"
-                  />
-                  {errors.name && (
-                    <p className="text-red-400 text-xs mt-1">{errors.name.message}</p>
-                  )}
-                </div>
-                <div>
-                  <label className="block text-sm text-gray-400 mb-2 font-medium">Email</label>
-                  <input
-                    {...register('email')}
-                    type="email"
-                    placeholder="seu@email.com"
-                    className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white placeholder:text-gray-600 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/20 transition-all"
-                  />
-                  {errors.email && (
-                    <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>
-                  )}
-                </div>
+              <div className="flex items-center justify-between mb-3">
+                <Linkedin className="w-6 h-6 text-blue-400" />
+                <ExternalLink className="w-4 h-4 text-gray-500 group-hover:text-blue-400 transition-colors" />
+              </div>
+              <h4 className="text-white font-bold text-base mb-1">
+                Vamos nos conectar!
+              </h4>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Me siga no LinkedIn para acompanhar meus projetos e artigos sobre
+                desenvolvimento.
+              </p>
+            </motion.a>
+          </div>
+
+          {/* Right column: Contact form */}
+          <motion.div
+            variants={item}
+            className="relative rounded-2xl bg-white/[0.02] border border-white/[0.06] p-6 sm:p-8"
+          >
+            {/* Subtle corner glow */}
+            <div className="absolute -top-px -right-px w-32 h-32 bg-blue-500/10 rounded-full blur-2xl pointer-events-none" />
+
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="relative space-y-5"
+            >
+              {/* Name */}
+              <div>
+                <label htmlFor="name" className="block text-sm text-gray-400 font-medium mb-2">
+                  Nome
+                </label>
+                <input
+                  id="name"
+                  type="text"
+                  placeholder="Seu nome"
+                  className={inputClasses}
+                  {...register('name')}
+                />
+                {errors.name && (
+                  <p className="mt-1.5 text-xs text-red-400">{errors.name.message}</p>
+                )}
               </div>
 
+              {/* Email */}
               <div>
-                <label className="block text-sm text-gray-400 mb-2 font-medium">Assunto</label>
+                <label htmlFor="email" className="block text-sm text-gray-400 font-medium mb-2">
+                  Email
+                </label>
                 <input
-                  {...register('subject')}
+                  id="email"
+                  type="email"
+                  placeholder="seu@email.com"
+                  className={inputClasses}
+                  {...register('email')}
+                />
+                {errors.email && (
+                  <p className="mt-1.5 text-xs text-red-400">{errors.email.message}</p>
+                )}
+              </div>
+
+              {/* Subject */}
+              <div>
+                <label htmlFor="subject" className="block text-sm text-gray-400 font-medium mb-2">
+                  Assunto
+                </label>
+                <input
+                  id="subject"
                   type="text"
-                  placeholder="Sobre o que quer falar?"
-                  className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white placeholder:text-gray-600 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/20 transition-all"
+                  placeholder="Assunto da mensagem"
+                  className={inputClasses}
+                  {...register('subject')}
                 />
                 {errors.subject && (
-                  <p className="text-red-400 text-xs mt-1">{errors.subject.message}</p>
+                  <p className="mt-1.5 text-xs text-red-400">{errors.subject.message}</p>
                 )}
               </div>
 
+              {/* Message */}
               <div>
-                <label className="block text-sm text-gray-400 mb-2 font-medium">Mensagem</label>
+                <label htmlFor="message" className="block text-sm text-gray-400 font-medium mb-2">
+                  Mensagem
+                </label>
                 <textarea
-                  {...register('message')}
+                  id="message"
                   rows={5}
                   placeholder="Sua mensagem..."
-                  className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white placeholder:text-gray-600 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/20 transition-all resize-none"
+                  className={`${inputClasses} resize-none`}
+                  {...register('message')}
                 />
                 {errors.message && (
-                  <p className="text-red-400 text-xs mt-1">{errors.message.message}</p>
+                  <p className="mt-1.5 text-xs text-red-400">{errors.message.message}</p>
                 )}
               </div>
 
+              {/* Submit button */}
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="group w-full py-4 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold transition-all hover:shadow-[0_0_40px_rgba(59,130,246,0.3)] hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
+                className="w-full flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 text-white font-medium text-sm hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] hover:scale-[1.02] disabled:opacity-60 disabled:hover:scale-100 disabled:hover:shadow-none transition-all duration-300"
               >
                 {isSubmitting ? (
                   <>
-                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <Loader2 className="w-4 h-4 animate-spin" />
                     Enviando...
                   </>
                 ) : (
                   <>
-                    <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    <Send className="w-4 h-4" />
                     Enviar Mensagem
                   </>
                 )}
               </button>
             </form>
           </motion.div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

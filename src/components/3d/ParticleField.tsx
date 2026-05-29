@@ -1,103 +1,81 @@
-import { useRef, useMemo } from 'react';
+import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
 interface ParticleFieldProps {
   count?: number;
-  size?: number;
-  color?: string;
-  spread?: number;
-  speed?: number;
 }
 
-export default function ParticleField({
-  count = 2000,
-  size = 0.015,
-  color = '#3b82f6',
-  spread = 30,
-  speed = 0.3,
-}: ParticleFieldProps) {
+const ParticleField: React.FC<ParticleFieldProps> = ({ count = 1200 }) => {
   const meshRef = useRef<THREE.Points>(null);
 
-  const particles = useMemo(() => {
+  const { geometry, positions, speeds } = useMemo(() => {
     const positions = new Float32Array(count * 3);
     const colors = new Float32Array(count * 3);
-    const sizes = new Float32Array(count);
-    const speeds = new Float32Array(count);
+    const speeds = new Float32Array(count * 3);
 
-    const baseColor = new THREE.Color(color);
-    const purpleColor = new THREE.Color('#8b5cf6');
-    const whiteColor = new THREE.Color('#ffffff');
+    const cyan = new THREE.Color('#06b6d4');
+    const purple = new THREE.Color('#8b5cf6');
+    const white = new THREE.Color('#ffffff');
+    const palette = [cyan, purple, white];
 
     for (let i = 0; i < count; i++) {
       const i3 = i * 3;
-      positions[i3] = (Math.random() - 0.5) * spread;
-      positions[i3 + 1] = (Math.random() - 0.5) * spread;
-      positions[i3 + 2] = (Math.random() - 0.5) * spread;
 
-      // Color variety
-      const rand = Math.random();
-      let c: THREE.Color;
-      if (rand < 0.5) c = baseColor;
-      else if (rand < 0.8) c = purpleColor;
-      else c = whiteColor;
+      // Spread across 25x25x15 space
+      positions[i3] = (Math.random() - 0.5) * 25;
+      positions[i3 + 1] = (Math.random() - 0.5) * 25;
+      positions[i3 + 2] = (Math.random() - 0.5) * 15;
 
-      colors[i3] = c.r;
-      colors[i3 + 1] = c.g;
-      colors[i3 + 2] = c.b;
+      // Assign color from palette
+      const color = palette[i % 3];
+      colors[i3] = color.r;
+      colors[i3 + 1] = color.g;
+      colors[i3 + 2] = color.b;
 
-      sizes[i] = Math.random() * size + size * 0.5;
-      speeds[i] = Math.random() * speed + speed * 0.2;
+      // Slow drift speeds per axis (unique per particle)
+      speeds[i3] = (Math.random() - 0.5) * 0.15;
+      speeds[i3 + 1] = (Math.random() - 0.5) * 0.15;
+      speeds[i3 + 2] = (Math.random() - 0.5) * 0.08;
     }
 
-    return { positions, colors, sizes, speeds };
-  }, [count, size, color, spread, speed]);
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions.slice(), 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
-  useFrame((state) => {
+    return { geometry, positions, speeds };
+  }, [count]);
+
+  useFrame(({ clock }) => {
     if (!meshRef.current) return;
-    const positions = meshRef.current.geometry.attributes.position.array as Float32Array;
-    const t = state.clock.getElapsedTime();
+    const posAttr = meshRef.current.geometry.attributes.position as THREE.BufferAttribute;
+    const posArray = posAttr.array as Float32Array;
+    const t = clock.getElapsedTime();
 
     for (let i = 0; i < count; i++) {
       const i3 = i * 3;
-      positions[i3 + 1] += Math.sin(t * particles.speeds[i] + i) * 0.002;
-      positions[i3] += Math.cos(t * particles.speeds[i] * 0.5 + i) * 0.001;
-
-      // Reset particles that drift too far
-      if (Math.abs(positions[i3 + 1]) > spread / 2) {
-        positions[i3 + 1] = -spread / 2;
-      }
+      // Smooth sinusoidal drift using per-particle speed offsets
+      posArray[i3] = positions[i3] + Math.sin(t * speeds[i3] + i) * 1.5;
+      posArray[i3 + 1] = positions[i3 + 1] + Math.cos(t * speeds[i3 + 1] + i * 0.5) * 1.5;
+      posArray[i3 + 2] = positions[i3 + 2] + Math.sin(t * speeds[i3 + 2] + i * 0.3) * 0.8;
     }
 
-    meshRef.current.geometry.attributes.position.needsUpdate = true;
-    meshRef.current.rotation.y = t * 0.02;
+    posAttr.needsUpdate = true;
   });
 
   return (
-    <points ref={meshRef}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={count}
-          array={particles.positions}
-          itemSize={3}
-        />
-        <bufferAttribute
-          attach="attributes-color"
-          count={count}
-          array={particles.colors}
-          itemSize={3}
-        />
-      </bufferGeometry>
+    <points ref={meshRef} geometry={geometry}>
       <pointsMaterial
-        size={size}
+        size={0.015}
         vertexColors
         transparent
-        opacity={0.8}
-        sizeAttenuation
+        opacity={0.85}
         blending={THREE.AdditiveBlending}
         depthWrite={false}
+        sizeAttenuation
       />
     </points>
   );
-}
+};
+
+export default React.memo(ParticleField);
